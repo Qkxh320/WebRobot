@@ -1,6 +1,8 @@
 package me.yongbo.robot.util;
 
 
+import java.util.Map;
+
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.URI;
@@ -30,15 +32,13 @@ public class HttpUtil {
 		httpClient.getParams().setContentCharset(CHARSET);
 		return httpClient;
 	}	
-	public static GetMethod getHttpGet(String url, String referer,String host) {
-		GetMethod httpGet = new GetMethod(url);
-		// 设置 请求超时时间
+	public static GetMethod getHttpGet(Map<String, String> request_headers) {
+		GetMethod httpGet = new GetMethod();
 		httpGet.getParams().setSoTimeout(TIMEOUT_SOCKET);
 		httpGet.setRequestHeader("User-Agent", USER_AGENT);
-		httpGet.setRequestHeader("Referer", referer);
-		httpGet.setRequestHeader("Host", host);
-		httpGet.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-		httpGet.setRequestHeader("DK_AJAX_REQUEST", "ajax-reqeust");
+		for(String k : request_headers.keySet()){
+			httpGet.setRequestHeader(k, request_headers.get(k));
+		}
 		return httpGet;
 	}
 }
