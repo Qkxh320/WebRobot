@@ -9,6 +9,6 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println(new Meitu91Robot().doWork());
+		new Meitu91Robot().doWork();
 	}
 }
