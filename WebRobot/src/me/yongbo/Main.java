@@ -1,20 +1,14 @@
 package me.yongbo;
 
+import me.yongbo.robot.Meitu91Robot;
+
 public class Main {
 
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		/*
-		 * 使用示例
-		 * */
-		//Thread thread0 = new Thread(new RobotClient("zh", "cuv", 1, 1, 50));
-		//thread0.start();
-		
-		Thread thread1 = new Thread(new RobotClient("zh", "cuv", 2, 1, 50));
-		thread1.start();
+		System.out.println(new Meitu91Robot().doWork());
 	}
-
 }
