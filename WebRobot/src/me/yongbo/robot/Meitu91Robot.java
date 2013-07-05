@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.yongbo.bean.Meitu91Response;
+import me.yongbo.robot.util.DbHelper;
 import me.yongbo.robot.util.HttpUtil;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -27,6 +28,7 @@ public class Meitu91Robot extends WebRobot {
 	
 	private HttpClient httpClient;
 	private GetMethod getMethod;
+	private DbHelper dbHelper;
 	
 	private Gson gson;
 	
@@ -41,6 +43,7 @@ public class Meitu91Robot extends WebRobot {
 		this.httpClient = HttpUtil.getHttpClient();
 		this.getMethod = HttpUtil.getHttpGet(getRequestHeaders());
 		gson = new Gson();
+		this.dbHelper = new DbHelper();
 	}
 	
 	private Map<String, String> getRequestHeaders() {
@@ -63,16 +66,17 @@ public class Meitu91Robot extends WebRobot {
         }
         reader.close();
         getMethod.releaseConnection();
-        System.out.println(sb.toString());
         return sb.toString(); 
 	}
 	
 	public void doWork() throws Exception {
 		String rp = getResponseString(String.format(POINT_URL, startIndex));
+		System.out.println(rp);
 		Meitu91Response response = gson.fromJson(rp, Meitu91Response.class);
 		if(response.getCount() != 0) {
 			startIndex = response.getLastId();
-			System.out.println(startIndex);
+			//写入数据库
+			dbHelper.execute("saveImage", response.getImages());
 		} else {
 			doAgain = false;
 		}
@@ -87,9 +91,11 @@ public class Meitu91Robot extends WebRobot {
 			try {
 				doWork();
 			} catch (Exception e) {
+				doAgain = false;
 				e.printStackTrace();
 			}
 		}
+		System.out.println(startIndex);
 	}
 	
 	
