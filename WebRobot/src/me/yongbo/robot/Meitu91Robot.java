@@ -3,8 +3,10 @@ package me.yongbo.robot;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import me.yongbo.bean.Meitu91Image;
 import me.yongbo.bean.Meitu91Response;
 import me.yongbo.robot.util.DbHelper;
 import me.yongbo.robot.util.HttpUtil;
@@ -66,20 +68,29 @@ public class Meitu91Robot extends WebRobot {
         }
         reader.close();
         getMethod.releaseConnection();
+        System.out.println(sb.toString());
         return sb.toString(); 
 	}
 	
-	public void doWork() throws Exception {
-		String rp = getResponseString(String.format(POINT_URL, startIndex));
-		System.out.println(rp);
-		Meitu91Response response = gson.fromJson(rp, Meitu91Response.class);
-		if(response.getCount() != 0) {
-			startIndex = response.getLastId();
-			//写入数据库
-			dbHelper.execute("saveImage", response.getImages());
-		} else {
-			doAgain = false;
+	public List<Meitu91Image> doWork() {
+		String rp;
+		List<Meitu91Image> imgs = null;
+		try {
+			rp = getResponseString(String.format(POINT_URL, startIndex));
+			Meitu91Response response = gson.fromJson(rp, Meitu91Response.class);
+			if(response.getCount() != 0) {
+				startIndex = response.getLastId();
+				imgs = response.getImages();
+				//写入数据库
+				//dbHelper.execute("saveImage", response.getImages());
+			} else {
+				doAgain = false;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return imgs;
 	}
 
 	@Override
@@ -88,12 +99,7 @@ public class Meitu91Robot extends WebRobot {
 			if(endIndex != -1 && startIndex > endIndex){
 				break;
 			}
-			try {
-				doWork();
-			} catch (Exception e) {
-				doAgain = false;
-				e.printStackTrace();
-			}
+			doWork();
 		}
 		System.out.println(startIndex);
 	}

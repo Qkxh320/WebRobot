@@ -18,7 +18,7 @@ public class DbHelper {
 	// 用户名
 	private static final String USERNAME = "sa";
 	// 密码
-	private static final String PASSWORD = "sql@2013";
+	private static final String PASSWORD = "sql@2012";
 
 	
 	// 静态代码块
@@ -82,7 +82,7 @@ public class DbHelper {
 		Connection conn = getConnection();
 		CallableStatement cstmt = null;
 		try {
-			cstmt = conn.prepareCall("{CALL " + storedProcedure + "(?,?,?,?,?,?)}");
+			cstmt = conn.prepareCall("{CALL " + storedProcedure + "(?,?,?,?,?,?,?)}");
 			for(Meitu91Image img : imgs){
 				cstmt.setInt("id", img.getId());
 				cstmt.setString("title", img.getTitle());
@@ -90,6 +90,7 @@ public class DbHelper {
 				cstmt.setString("intro", img.getIntro());
 				cstmt.setInt("width", img.getWidth());
 				cstmt.setInt("height", img.getHeight());
+				cstmt.setInt("objtype", 1);
 				cstmt.execute();
 			}
 		} catch (SQLException e) {
