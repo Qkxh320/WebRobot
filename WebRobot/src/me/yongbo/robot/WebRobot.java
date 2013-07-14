@@ -15,6 +15,9 @@ public class WebRobot implements Runnable {
 	protected HttpClient httpClient;
 	protected GetMethod getMethod;
 	
+	//标志位，用于指示线程是否继续执行（如遇到错误，则停止运行）
+	protected boolean doAgain = true;
+	
 	/**
 	 * 构造函数
 	 * @param getMethod 一个GetMethod实例

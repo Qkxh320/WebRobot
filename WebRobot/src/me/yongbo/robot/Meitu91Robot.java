@@ -22,9 +22,6 @@ public class Meitu91Robot extends WebRobot {
 	
 	
 	private Gson gson;
-	
-	private boolean doAgain = true;
-	
 	protected DbHelper dbHelper;
 	public Meitu91Robot(int startIndex){
 		this(startIndex, -1);
@@ -63,6 +60,7 @@ public class Meitu91Robot extends WebRobot {
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			doAgain = false;
 			e.printStackTrace();
 		}
 		return imgs;

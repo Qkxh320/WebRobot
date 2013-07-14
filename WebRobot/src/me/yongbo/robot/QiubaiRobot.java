@@ -44,27 +44,41 @@ public class QiubaiRobot extends WebRobot {
 		this.endPage = endPage;
 		this.category = category;
 	}
+	
+	@Override
+	public void run() {
+		while (doAgain) {
+			if(endPage != -1 && startPage > endPage){
+				break;
+			}
+			doWork();
+		}
+	}
+
 	public List<QiubaiObj> doWork() {
+		System.out.println("开始抓取第 " + startPage + "页的数据");
 		String rp;
 		List<QiubaiObj> events = null;
 		try {
 			rp = getResponseString(String.format(POINT_URL, category, startPage));
 			Document doc = Jsoup.parse(rp);
-			Elements eles = doc.select(".content");
+			Elements eles = doc.select(".block .content");
+			if(eles.isEmpty()){
+				doAgain = false;
+				return null;
+			}
 			for(Element ele : eles){
 				System.out.println(ele.text());
 			}
+			startPage++;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			doAgain = false;
 			e.printStackTrace();
 		}
 		return events;
 	}
-	private List<QiubaiObj> parseHtml2Obj(){
-		
-		
-		return null;
-	}
+	
 	private static Map<String, String> getRequestHeaders() {
 		Map<String, String> param = new HashMap<>();
 		param.put("Referer", REFERER);
