@@ -1,7 +1,5 @@
 package me.yongbo.robot;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +9,6 @@ import me.yongbo.bean.Meitu91Response;
 import me.yongbo.robot.util.DbHelper;
 import me.yongbo.robot.util.HttpUtil;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.methods.GetMethod;
-
 import com.google.gson.Gson;
 
 public class Meitu91Robot extends WebRobot {
@@ -22,54 +16,35 @@ public class Meitu91Robot extends WebRobot {
 	private final static String HOST = "www.91meitu.net";
 	private final static String REFERER = "http://www.91meitu.net/";
 	private final static String POINT_URL = "http://www.91meitu.net/img-item/get-next?1&lastid=%1$d";
-	
-	
-	
+
 	private int startIndex;
 	private int endIndex;
 	
-	private HttpClient httpClient;
-	private GetMethod getMethod;
-	private DbHelper dbHelper;
 	
 	private Gson gson;
 	
 	private boolean doAgain = true;
+	
+	protected DbHelper dbHelper;
 	public Meitu91Robot(int startIndex){
 		this(startIndex, -1);
 	}
 	
 	public Meitu91Robot(int startIndex,int endIndex){
+		super(HttpUtil.getHttpGet(getRequestHeaders()));
 		this.startIndex = startIndex;
 		this.endIndex = endIndex;
-		this.httpClient = HttpUtil.getHttpClient();
-		this.getMethod = HttpUtil.getHttpGet(getRequestHeaders());
-		gson = new Gson();
 		this.dbHelper = new DbHelper();
+		gson = new Gson();
 	}
 	
-	private Map<String, String> getRequestHeaders() {
+	public static Map<String, String> getRequestHeaders() {
 		Map<String, String> param = new HashMap<>();
 		param.put("Referer", REFERER);
 		param.put("Host", HOST);
 		param.put("X-Requested-With", "XMLHttpRequest");
 		param.put("DK_AJAX_REQUEST", "ajax-reqeust");
 		return param;
-	}
-
-	public String getResponseString(String url) throws Exception {
-		getMethod.setURI(new URI(url));
-		httpClient.executeMethod(getMethod);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(getMethod.getResponseBodyAsStream(), "UTF-8"));
-        String s; 
-        StringBuilder sb = new StringBuilder("");
-        while ((s = reader.readLine()) != null) {
-            sb.append(s);
-        }
-        reader.close();
-        getMethod.releaseConnection();
-        System.out.println(sb.toString());
-        return sb.toString(); 
 	}
 	
 	public List<Meitu91Image> doWork() {
@@ -103,6 +78,4 @@ public class Meitu91Robot extends WebRobot {
 		}
 		System.out.println(startIndex);
 	}
-	
-	
 }
