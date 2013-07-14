@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import me.yongbo.bean.QiubaiEvent;
+import me.yongbo.bean.QiubaiObj;
 import me.yongbo.robot.util.HttpUtil;
 
 
@@ -44,9 +44,9 @@ public class QiubaiRobot extends WebRobot {
 		this.endPage = endPage;
 		this.category = category;
 	}
-	public List<QiubaiEvent> doWork() {
+	public List<QiubaiObj> doWork() {
 		String rp;
-		List<QiubaiEvent> events = null;
+		List<QiubaiObj> events = null;
 		try {
 			rp = getResponseString(String.format(POINT_URL, category, startPage));
 			Document doc = Jsoup.parse(rp);
@@ -60,7 +60,7 @@ public class QiubaiRobot extends WebRobot {
 		}
 		return events;
 	}
-	private List<QiubaiEvent> parseHtml2Obj(){
+	private List<QiubaiObj> parseHtml2Obj(){
 		
 		
 		return null;

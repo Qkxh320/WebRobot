@@ -1,6 +1,6 @@
 package me.yongbo.bean;
 
-public class QiubaiEvent {
+public class QiubaiObj {
 	private String content;
 
 	public String getContent() {
