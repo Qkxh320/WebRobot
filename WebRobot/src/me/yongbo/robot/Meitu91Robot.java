@@ -53,6 +53,7 @@ public class Meitu91Robot extends WebRobot {
 			if(response.getCount() != 0) {
 				startIndex = response.getLastId();
 				imgs = response.getImages();
+				System.out.println(response.getLastId());
 				//写入数据库
 				//dbHelper.execute("saveImage", response.getImages());
 			} else {

@@ -1,6 +1,6 @@
 package me.yongbo.bean;
 
-public class Meitu91Image {
+public class Meitu91Image extends Entity {
 	private int id;
 	private String filename;
 	private int width;

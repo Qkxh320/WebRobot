@@ -5,10 +5,8 @@ import java.util.Map;
 
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 
 public class HttpUtil {
@@ -34,6 +32,7 @@ public class HttpUtil {
 	}	
 	public static GetMethod getHttpGet(Map<String, String> request_headers) {
 		GetMethod httpGet = new GetMethod();
+		//httpGet.setFollowRedirects(false);
 		httpGet.getParams().setSoTimeout(TIMEOUT_SOCKET);
 		httpGet.setRequestHeader("User-Agent", USER_AGENT);
 		for(String k : request_headers.keySet()){
