@@ -71,7 +71,7 @@ public class QiubaiRobot extends WebRobot {
 	
 	@Override
 	public void run() {
-		while (doAgain) {
+		while (doAgain && failCount <= MAX_FAILCOUNT) {
 			if(endPage != -1 && startPage > endPage){
 				break;
 			}
@@ -91,15 +91,12 @@ public class QiubaiRobot extends WebRobot {
 				failCount = 0;
 			} else {
 				failCount++;
-				if(failCount > MAX_FAILCOUNT){
-					doAgain = false;
-					return;
-				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			doAgain = false;
+			failCount++;
 			e.printStackTrace();
+			System.err.println("对于链接:" +String.format(POINT_URL, category, startPage) + " 第" + failCount+"次抓取失敗，正在尝试重新抓取...");
 		}
 	}
 	public List<QiubaiObj> parseHtml2Obj(String html){
