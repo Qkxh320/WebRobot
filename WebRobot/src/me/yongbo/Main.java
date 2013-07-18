@@ -13,7 +13,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		//http://meitu91.b0.upaiyun.com/
-		Thread thread01 = new Thread(new QiubaiRobot(109, "late")); //抓取最新下所有数据
+		Thread thread01 = new Thread(new QiubaiRobot(1, "late")); //抓取最新下所有数据
 		thread01.start();
 //		Thread thread01 = new Thread(new Meitu91Robot(1)); //抓取最新下所有数据
 //		thread01.start();

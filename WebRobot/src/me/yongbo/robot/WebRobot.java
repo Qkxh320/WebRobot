@@ -49,8 +49,15 @@ public class WebRobot implements Runnable {
 		if(status != HttpStatus.SC_OK){
 			return null;
 		}
-
-        return getMethod.getResponseBodyAsString(); 
+		InputStreamReader isr = new InputStreamReader(getMethod.getResponseBodyAsStream());
+		BufferedReader bufReader = new BufferedReader(isr);
+		String lineText;
+		StringBuilder sb = new StringBuilder();
+		while ((lineText = bufReader.readLine()) != null) {
+			sb.append(lineText);
+		}
+		return sb.toString();
+        //return getMethod.getResponseBodyAsString(); 
 	}
 	/**
 	 * 发起http请求

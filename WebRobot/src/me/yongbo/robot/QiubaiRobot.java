@@ -85,8 +85,8 @@ public class QiubaiRobot extends WebRobot {
 			rp = getResponseString(String.format(POINT_URL, category, startPage));
 			//System.out.println(rp);
 			if(rp != null && rp.trim().length() > 0){ 
-				//parseHtml2Obj(rp);
-				dbHelper.execute("saveQBdata", parseHtml2Obj(rp));
+				parseHtml2Obj(rp);
+				//dbHelper.execute("saveQBdata", parseHtml2Obj(rp));
 				startPage++;
 				failCount = 0;
 			} else {
