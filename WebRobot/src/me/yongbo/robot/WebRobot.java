@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -21,9 +20,6 @@ import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.methods.GetMethod;
 
 public class WebRobot implements Runnable {
-	
-	public final static String default_img_savedir = "F:"+ File.separator + "websource" + File.separator;
-	
 	protected HttpClient httpClient;
 	protected GetMethod getMethod;
 	
@@ -32,7 +28,7 @@ public class WebRobot implements Runnable {
 	
 	private static ExecutorService pool;
 	static {
-		pool = Executors.newFixedThreadPool(10);  //固定线程池
+		pool = Executors.newFixedThreadPool(20);  //固定线程池
 	}
 	/**
 	 * 构造函数
@@ -92,7 +88,12 @@ public class WebRobot implements Runnable {
 		}
 		return sb.toString();
 	}
-	
+	/**
+	 * 下载网络图片到本地
+	 * @param imgUrl 网络图片路径
+	 * @param folderPath 本地存放目录
+	 * @param fileName 存放的文件名
+	 * */
 	public void downImage(final String imgUrl,final String folderPath,final String fileName) {
 		System.out.println("开始下载图片:" + imgUrl);
 		File destDir = new File(folderPath);
@@ -134,16 +135,16 @@ public class WebRobot implements Runnable {
         byte[] buffer = new byte[1024];  
         int len = 0;
         
-        int count = 0;
-        String processText;
+        //int count = 0;
+        //String processText;
         long t = System.currentTimeMillis();
         
         while((len = inStream.read(buffer)) != -1 ){  
             outStream.write(buffer, 0, len);
             //下载进度
-            count += len;
-            processText = df.format((float) count / 1024 / 1024) + "MB" + "/" + fileSize;
-            System.out.println(processText);
+            //count += len;
+            //processText = df.format((float) count / 1024 / 1024) + "MB" + "/" + fileSize;
+            //System.out.println(processText);
         }  
         System.out.println("下载完成，耗时：" + (System.currentTimeMillis() - t) + "毫秒");
         inStream.close();  

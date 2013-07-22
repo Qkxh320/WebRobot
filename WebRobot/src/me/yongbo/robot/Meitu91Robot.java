@@ -1,5 +1,8 @@
 package me.yongbo.robot;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +16,9 @@ import com.google.gson.Gson;
 
 public class Meitu91Robot extends WebRobot {
 	
+	public final static String default_img_savedir = "F:"+ File.separator + "webimage" + File.separator;
+	
+	private final static String IMG_HOST = "http://meitu91.b0.upaiyun.com/%1$s";
 	private final static String HOST = "www.91meitu.net";
 	private final static String REFERER = "http://www.91meitu.net/";
 	private final static String POINT_URL = "http://www.91meitu.net/img-item/get-next?1&lastid=%1$d";
@@ -43,6 +49,17 @@ public class Meitu91Robot extends WebRobot {
 		param.put("DK_AJAX_REQUEST", "ajax-reqeust");
 		return param;
 	}
+	private void handlerData(List<Meitu91Image> imgs){
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String imgUrl;
+		String folderPath = default_img_savedir + sdf.format(date) + File.separator;
+		for (Meitu91Image img : imgs) {
+			imgUrl = String.format(IMG_HOST, img.getFilename());
+			String fileType = imgUrl.substring(imgUrl.lastIndexOf(".") - 1);
+			downImage(imgUrl, folderPath, sdf.format(date) + img.getId() + fileType);
+		}
+	}
 	
 	public List<Meitu91Image> doWork() {
 		String rp;
@@ -53,7 +70,8 @@ public class Meitu91Robot extends WebRobot {
 			if(response.getCount() != 0) {
 				startIndex = response.getLastId();
 				imgs = response.getImages();
-				System.out.println(response.getLastId());
+				handlerData(imgs);
+				//System.out.println(response.getLastId());
 				//写入数据库
 				//dbHelper.execute("saveImage", response.getImages());
 			} else {
