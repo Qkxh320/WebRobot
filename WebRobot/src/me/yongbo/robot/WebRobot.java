@@ -1,10 +1,17 @@
 package me.yongbo.robot;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DecimalFormat;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import me.yongbo.robot.util.HttpUtil;
 
@@ -15,12 +22,18 @@ import org.apache.commons.httpclient.methods.GetMethod;
 
 public class WebRobot implements Runnable {
 	
+	public final static String default_img_savedir = "F:"+ File.separator + "websource" + File.separator;
+	
 	protected HttpClient httpClient;
 	protected GetMethod getMethod;
 	
 	//标志位，用于指示线程是否继续执行（如遇到错误，则停止运行）
 	protected boolean doAgain = true;
 	
+	private static ExecutorService pool;
+	static {
+		pool = Executors.newFixedThreadPool(10);  //固定线程池
+	}
 	/**
 	 * 构造函数
 	 * @param getMethod 一个GetMethod实例
@@ -79,4 +92,61 @@ public class WebRobot implements Runnable {
 		}
 		return sb.toString();
 	}
+	
+	public void downImage(final String imgUrl,final String folderPath,final String fileName) {
+		System.out.println("开始下载图片:" + imgUrl);
+		File destDir = new File(folderPath);
+		if (!destDir.exists()) {
+			destDir.mkdirs();
+		}
+		pool.execute(new Runnable() {
+			@Override
+			public void run() {
+				HttpClient client = HttpUtil.getHttpClient();
+				GetMethod get = new GetMethod(imgUrl);
+				try {
+					int status_code = client.executeMethod(get);
+					if(status_code == HttpStatus.SC_OK){
+						byte[] data = readFromResponse(get);
+						String savePaht = folderPath + fileName;
+				        File imageFile = new File(savePaht);  
+				        FileOutputStream outStream = new FileOutputStream(imageFile);  
+				        outStream.write(data);  
+				        outStream.close();  
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				finally {
+					get.releaseConnection();
+				}
+			}
+		});
+	}
+	public static byte[] readFromResponse(GetMethod get) throws Exception{ 
+		InputStream inStream = get.getResponseBodyAsStream();
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        long length = get.getResponseContentLength();
+        //显示文件大小格式：2个小数点显示
+    	DecimalFormat df = new DecimalFormat("0.00");
+    	//进度条下面显示的总文件大小
+    	String fileSize = df.format((float) length / 1024 / 1024) + "MB";
+        byte[] buffer = new byte[1024];  
+        int len = 0;
+        
+        int count = 0;
+        String processText;
+        long t = System.currentTimeMillis();
+        
+        while((len = inStream.read(buffer)) != -1 ){  
+            outStream.write(buffer, 0, len);
+            //下载进度
+            count += len;
+            processText = df.format((float) count / 1024 / 1024) + "MB" + "/" + fileSize;
+            System.out.println(processText);
+        }  
+        System.out.println("下载完成，耗时：" + (System.currentTimeMillis() - t) + "毫秒");
+        inStream.close();  
+        return outStream.toByteArray();  
+    }
 }
