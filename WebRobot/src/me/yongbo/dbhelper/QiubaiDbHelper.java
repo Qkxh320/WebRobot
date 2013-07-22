@@ -17,7 +17,7 @@ public class QiubaiDbHelper extends BaseDbHelper {
 			for(QiubaiObj qboObj : qbObjs){
 				cstmt.setString("id", qboObj.getId());
 				cstmt.setString("content", qboObj.getContent());
-				cstmt.setString("imgurl", qboObj.getImgUrl());
+				cstmt.setString("filename", qboObj.getFileName());
 				cstmt.setString("createtime", qboObj.getCreatetime());
 				cstmt.setString("detailurl", qboObj.getDetailUrl());
 				cstmt.execute();

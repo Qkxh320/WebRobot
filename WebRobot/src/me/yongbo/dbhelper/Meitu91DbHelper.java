@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import me.yongbo.bean.Entity;
 import me.yongbo.bean.Meitu91Image;
 
 public class Meitu91DbHelper extends BaseDbHelper {
@@ -16,7 +15,8 @@ public class Meitu91DbHelper extends BaseDbHelper {
 		try {
 			cstmt = conn.prepareCall("{CALL " + storedProcedure + "(?,?,?,?,?,?,?)}");
 			for(Meitu91Image img : imgs) {
-				cstmt.setString("content", img.getTitle());
+				cstmt.setInt("id", img.getId());
+				cstmt.setString("title", img.getTitle());
 				cstmt.setString("filename", img.getFilename());
 				cstmt.setString("intro", img.getIntro());
 				cstmt.setInt("width", img.getWidth());

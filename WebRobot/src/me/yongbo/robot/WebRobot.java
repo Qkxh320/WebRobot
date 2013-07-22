@@ -25,7 +25,8 @@ public class WebRobot implements Runnable {
 	
 	//标志位，用于指示线程是否继续执行（如遇到错误，则停止运行）
 	protected boolean doAgain = true;
-	
+	//是否写入数据库
+	protected boolean databaseEnable = false;
 	private static ExecutorService pool;
 	static {
 		pool = Executors.newFixedThreadPool(20);  //固定线程池
@@ -37,7 +38,6 @@ public class WebRobot implements Runnable {
 	public WebRobot(GetMethod getMethod) {
 		this.httpClient = HttpUtil.getHttpClient();
 		this.getMethod = getMethod;
-		
 	}
 	/**
 	 * 构造函数

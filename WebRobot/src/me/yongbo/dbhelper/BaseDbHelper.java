@@ -9,6 +9,7 @@ import java.util.List;
 
 import me.yongbo.bean.Entity;
 import me.yongbo.bean.Meitu91Image;
+import me.yongbo.bean.QiubaiObj;
 
 public class BaseDbHelper {
 	// 连接驱动
@@ -77,9 +78,4 @@ public class BaseDbHelper {
 			}
 		}
 	}
-	
-	/*
-	public void execute(String storedProcedure, List<Entity> objs) {
-		//do something
-	}*/
 }

@@ -7,6 +7,7 @@ public class Meitu91Image extends Entity {
 	private int height;
 	private String title;
 	private String intro;
+	
 	public int getId() {
 		return id;
 	}
