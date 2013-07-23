@@ -1,12 +1,15 @@
 package me.yongbo.bean;
 
 public class Meitu91Image extends Entity {
+	
 	private int id;
-	private String filename;
+	private String savePath;
+	private String imgUrl;
 	private int width;
 	private int height;
 	private String title;
 	private String intro;
+	private String filename;
 	
 	public int getId() {
 		return id;
@@ -14,11 +17,24 @@ public class Meitu91Image extends Entity {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getFilename() {
+
+	public String getFileName() {
 		return filename;
 	}
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public void setFileName(String fileName) {
+		this.filename = fileName;
+	}
+	public String getSavePath() {
+		return savePath;
+	}
+	public void setSavePath(String savePath) {
+		this.savePath = savePath;
+	}
+	public String getImgUrl() {
+		return imgUrl;
+	}
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 	public int getWidth() {
 		return width;

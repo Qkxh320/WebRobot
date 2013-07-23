@@ -1,6 +1,5 @@
 package me.yongbo.robot;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -92,11 +91,12 @@ public class Meitu91Robot extends WebRobot {
 		String curDir = sdf.format(date);
 		String folderPath = rootDir + curDir;
 		for (Meitu91Image img : imgs) {
-			String imgUrl = String.format(IMG_HOST, img.getFilename());
+			String imgUrl = String.format(IMG_HOST, img.getFileName());
 			String fileType = imgUrl.substring(imgUrl.lastIndexOf(".") - 1);
 			String fileName = BEFORE + img.getId() + fileType;
-			//System.out.println(folderPath);
-			img.setFilename(curDir + fileName);
+			//System.out.println(imgUrl);
+			img.setImgUrl(imgUrl);
+			img.setSavePath(curDir + fileName);
 			downImage(imgUrl, folderPath, fileName);
 		}
 		//写入数据库
@@ -113,20 +113,20 @@ public class Meitu91Robot extends WebRobot {
 			if(response.getCount() != 0) {
 				startIndex = response.getLastId();
 				handlerData(response.getImages());
+				failCount = 0;
 			} else {
 				doAgain = false;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			doAgain = false;
-			e.printStackTrace();
+			failCount++;
+			System.err.println("对于链接:" +String.format(POINT_URL, startIndex) + " 第" + failCount + "次抓取失敗，正在尝试重新抓取...");
 		}
 		return imgs;
 	}
 
 	@Override
 	public void run() {
-		while (doAgain) {
+		while (doAgain && failCount <= MAX_FAILCOUNT) {
 			if(endIndex != -1 && startIndex > endIndex){
 				break;
 			}

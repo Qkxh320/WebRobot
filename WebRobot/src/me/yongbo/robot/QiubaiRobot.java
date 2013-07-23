@@ -1,6 +1,5 @@
 package me.yongbo.robot;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +22,7 @@ import me.yongbo.robot.util.PropertieUtil;
 
 public class QiubaiRobot extends WebRobot {
 	
-	public static String rootDir = "F:/webimage/qbimage/";
+	public static String rootDir = "D:/DevelopWebSite/EmptySite12/webimage/qbimage/";
 	private final static String BEFORE = "qb_";
 	private static SimpleDateFormat sdf;
 	static {
@@ -41,8 +40,7 @@ public class QiubaiRobot extends WebRobot {
 	
 	private String lastTagId = null;
 	
-	private int failCount = 0; //失败次数记录
-	private final static int MAX_FAILCOUNT = 3; //最多失败次数，请求某个URL失败超过这个次数将自动停止发起请求
+	
 	
 	private boolean isFirst;
 	/**
@@ -93,7 +91,7 @@ public class QiubaiRobot extends WebRobot {
 			if(imgUrl != null){
 				String fileType = imgUrl.substring(imgUrl.lastIndexOf(".") - 1);
 				String fileName = BEFORE + qb.getId() + fileType;
-				qb.setFileName(curDir + fileName);
+				qb.setSavePath(curDir + fileName);
 				downImage(imgUrl, folderPath, fileName);
 			}
 		}
@@ -116,22 +114,21 @@ public class QiubaiRobot extends WebRobot {
 				failCount++;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			failCount++;
-			e.printStackTrace();
+			//e.printStackTrace();
 			System.err.println("对于链接:" +String.format(POINT_URL, category, startPage) + " 第" + failCount+"次抓取失敗，正在尝试重新抓取...");
 		}
 	}
 	public List<QiubaiObj> parseHtml2Obj(String html){
 		Document doc = Jsoup.parse(html);
 		Elements eles = doc.getElementsByClass("block");
+		List<QiubaiObj> qbObjs = new ArrayList<QiubaiObj>();
 		if(eles.isEmpty()){
 			doAgain = false;
-			System.out.println("数据为空");
-			return null;
+			System.out.println("数据为空, 结束抓取。。。");
+			return qbObjs;
 		}
 		QiubaiObj qbObj = null;
-		List<QiubaiObj> qbObjs = new ArrayList<QiubaiObj>();
 		for(Element ele : eles) {
 			Element content = ele.getElementsByClass("content").first();
 			Elements img = ele.select(".thumb img");

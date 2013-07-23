@@ -6,14 +6,14 @@ public class QiubaiObj extends Entity {
 	private String imgUrl;
 	private String createtime;
 	private String detailUrl;
-	private String fileName;
+	private String savePath;
 
-	public String getFileName() {
-		return fileName;
+	public String getSavePath() {
+		return savePath;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setSavePath(String savePath) {
+		this.savePath = savePath;
 	}
 
 	public String getDetailUrl() {

@@ -27,7 +27,12 @@ public class WebRobot implements Runnable {
 	protected boolean doAgain = true;
 	//是否写入数据库
 	protected boolean databaseEnable = false;
+	//线程池
 	private static ExecutorService pool;
+	
+	protected int failCount = 0; //抓取失败次数记录
+	protected final static int MAX_FAILCOUNT = 3; //最多失败次数，请求某个URL失败超过这个次数将自动停止发起请求
+	
 	static {
 		pool = Executors.newFixedThreadPool(20);  //固定线程池
 	}

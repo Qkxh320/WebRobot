@@ -13,11 +13,12 @@ public class Meitu91DbHelper extends BaseDbHelper {
 		Connection conn = getConnection();
 		CallableStatement cstmt = null;
 		try {
-			cstmt = conn.prepareCall("{CALL " + storedProcedure + "(?,?,?,?,?,?,?)}");
+			cstmt = conn.prepareCall("{CALL " + storedProcedure + "(?,?,?,?,?,?,?,?)}");
 			for(Meitu91Image img : imgs) {
 				cstmt.setInt("id", img.getId());
 				cstmt.setString("title", img.getTitle());
-				cstmt.setString("filename", img.getFilename());
+				cstmt.setString("savePath", img.getSavePath());
+				cstmt.setString("imgUrl", img.getImgUrl());
 				cstmt.setString("intro", img.getIntro());
 				cstmt.setInt("width", img.getWidth());
 				cstmt.setInt("height", img.getHeight());

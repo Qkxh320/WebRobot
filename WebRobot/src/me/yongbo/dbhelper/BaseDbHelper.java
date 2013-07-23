@@ -5,11 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
-import me.yongbo.bean.Entity;
-import me.yongbo.bean.Meitu91Image;
-import me.yongbo.bean.QiubaiObj;
 
 public class BaseDbHelper {
 	// 连接驱动
@@ -19,7 +14,7 @@ public class BaseDbHelper {
 	// 用户名
 	private static final String USERNAME = "sa";
 	// 密码
-	private static final String PASSWORD = "sql@2012";
+	private static final String PASSWORD = "sql@2013";
 
 	
 	// 静态代码块

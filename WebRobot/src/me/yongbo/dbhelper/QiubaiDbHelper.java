@@ -13,11 +13,12 @@ public class QiubaiDbHelper extends BaseDbHelper {
 		Connection conn = getConnection();
 		CallableStatement cstmt = null;
 		try {
-			cstmt = conn.prepareCall("{CALL " + storedProcedure + "(?,?,?,?,?)}");
+			cstmt = conn.prepareCall("{CALL " + storedProcedure + "(?,?,?,?,?,?)}");
 			for(QiubaiObj qboObj : qbObjs){
 				cstmt.setString("id", qboObj.getId());
 				cstmt.setString("content", qboObj.getContent());
-				cstmt.setString("filename", qboObj.getFileName());
+				cstmt.setString("imgurl", qboObj.getImgUrl());
+				cstmt.setString("savepath", qboObj.getSavePath());
 				cstmt.setString("createtime", qboObj.getCreatetime());
 				cstmt.setString("detailurl", qboObj.getDetailUrl());
 				cstmt.execute();
