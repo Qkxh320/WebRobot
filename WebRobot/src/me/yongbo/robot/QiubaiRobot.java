@@ -1,8 +1,6 @@
 package me.yongbo.robot;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +20,8 @@ import me.yongbo.robot.util.PropertieUtil;
 
 public class QiubaiRobot extends WebRobot {
 	
-	public static String rootDir = "D:/DevelopWebSite/EmptySite12/webimage/qbimage/";
+	public static String rootDir = "D:/wakao/webimage/qbimage/";
 	private final static String BEFORE = "qb_";
-	private static SimpleDateFormat sdf;
-	static {
-		sdf = new SimpleDateFormat("yyyyMMdd/HHmm/");
-	}
 	
 	private final static String HOST = "www.qiushibaike.com";
 	private final static String REFERER = "www.qiushibaike.com";
@@ -82,10 +76,11 @@ public class QiubaiRobot extends WebRobot {
 	}
 	
 	private void handlerData(List<QiubaiObj> qbs){
+		/*
 		Date date = new Date();
 		String curDir = sdf.format(date);
-		String folderPath = rootDir + curDir;
-		//System.out.println(folderPath);
+		String folderPath = rootDir + curDir;*/
+		initSaveDir(rootDir);
 		for (QiubaiObj qb : qbs) {
 			String imgUrl = qb.getImgUrl();
 			if(imgUrl != null){

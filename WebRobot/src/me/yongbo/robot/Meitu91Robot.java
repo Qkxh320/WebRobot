@@ -15,13 +15,9 @@ import com.google.gson.Gson;
 
 public class Meitu91Robot extends WebRobot {
 	
-	public static String rootDir = "F:/webimage/mt91image/";
+	public static String rootDir = "D:/wakao/webimage/mt91image/";
 	private final static String BEFORE = "91mt_";
-	private static SimpleDateFormat sdf;
-	static {
-		sdf = new SimpleDateFormat("yyyyMMdd/HHmm/");
-	}
-	
+
 	private final static String IMG_HOST = "http://meitu91.b0.upaiyun.com/%1$s";
 	private final static String HOST = "www.91meitu.net";
 	private final static String REFERER = "http://www.91meitu.net/";
@@ -87,9 +83,12 @@ public class Meitu91Robot extends WebRobot {
 	}
 	
 	private void handlerData(List<Meitu91Image> imgs){
+		/*
 		Date date = new Date();
 		String curDir = sdf.format(date);
 		String folderPath = rootDir + curDir;
+		*/
+		initSaveDir(rootDir);
 		for (Meitu91Image img : imgs) {
 			String imgUrl = String.format(IMG_HOST, img.getFileName());
 			String fileType = imgUrl.substring(imgUrl.lastIndexOf(".") - 1);
@@ -104,6 +103,7 @@ public class Meitu91Robot extends WebRobot {
 			dbHelper.execute("saveImage", imgs);
 		}
 	}
+	
 	public List<Meitu91Image> doWork() {
 		String rp;
 		List<Meitu91Image> imgs = null;

@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,6 +25,8 @@ public class WebRobot implements Runnable {
 	protected HttpClient httpClient;
 	protected GetMethod getMethod;
 	
+	protected static SimpleDateFormat sdf;
+
 	//标志位，用于指示线程是否继续执行（如遇到错误，则停止运行）
 	protected boolean doAgain = true;
 	//是否写入数据库
@@ -35,6 +39,7 @@ public class WebRobot implements Runnable {
 	
 	static {
 		pool = Executors.newFixedThreadPool(20);  //固定线程池
+		sdf = new SimpleDateFormat("yyyyMMdd/HHmm/");
 	}
 	/**
 	 * 构造函数
@@ -155,4 +160,11 @@ public class WebRobot implements Runnable {
         inStream.close();  
         return outStream.toByteArray();  
     }
+	protected String curDir;
+	protected String folderPath;
+	public void initSaveDir(String rootDir){
+		Date date = new Date();
+		curDir = sdf.format(date);
+		folderPath = rootDir + curDir;
+	}
 }
