@@ -1,7 +1,7 @@
 package me.yongbo.bean;
 
 import java.util.List;
-public class HuabanResponse extends Entity {
+public class HuabanResponse {
 	private List<HuabanPin> pins;
 
 	public List<HuabanPin> getPins() {

@@ -1,12 +1,14 @@
 package me.yongbo.robot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import me.yongbo.bean.Meitu91Image;
 import me.yongbo.bean.Meitu91Response;
-import me.yongbo.dbhelper.Meitu91DbHelper;
+import me.yongbo.bean.MyImage;
+import me.yongbo.dbhelper.ImageDbHelper;
 import me.yongbo.robot.util.HttpUtil;
 
 import com.google.gson.Gson;
@@ -23,9 +25,10 @@ public class Meitu91Robot extends WebRobot {
 
 	private int startIndex;
 	private int endIndex;
+	private int objtype;
 
 	private Gson gson;
-	protected Meitu91DbHelper dbHelper;
+	protected ImageDbHelper dbHelper;
 
 	/**
 	 * 构造函数
@@ -58,12 +61,7 @@ public class Meitu91Robot extends WebRobot {
 	 *            结束位置
 	 * */
 	public Meitu91Robot(int startIndex, int endIndex) {
-		super(HttpUtil.getHttpGet(getRequestHeaders()));
-		this.startIndex = startIndex;
-		this.endIndex = endIndex;
-		this.databaseEnable = false;
-		this.dbHelper = new Meitu91DbHelper();
-		gson = new Gson();
+		this(startIndex, endIndex, false);
 	}
 
 	/**
@@ -81,7 +79,8 @@ public class Meitu91Robot extends WebRobot {
 		this.startIndex = startIndex;
 		this.endIndex = endIndex;
 		this.databaseEnable = databaseEnable;
-		this.dbHelper = new Meitu91DbHelper();
+		this.dbHelper = new ImageDbHelper();
+		this.objtype = MyImage.OBJ_TYPE.get("meinv");
 		gson = new Gson();
 	}
 
@@ -94,8 +93,9 @@ public class Meitu91Robot extends WebRobot {
 		return param;
 	}
 
-	private void handlerData(List<Meitu91Image> imgs) {
+	private List<MyImage> handlerData(List<Meitu91Image> imgs) {
 		initSaveDir(rootDir);
+		List<MyImage> mImgs = new ArrayList<MyImage>();
 		for (Meitu91Image img : imgs) {
 			String imgUrl = String.format(IMG_HOST, img.getFileName());
 			String fileType = imgUrl.substring(imgUrl.lastIndexOf(".") - 1);
@@ -103,26 +103,28 @@ public class Meitu91Robot extends WebRobot {
 			// System.out.println(imgUrl);
 			img.setImgUrl(imgUrl);
 			img.setSavePath(curDir + fileName);
+			img.setObjType(objtype);
+			mImgs.add(img); //转化为统一图片类型
+			//下载图片到本地
 			downImage(imgUrl, folderPath, fileName);
 		}
-		// 写入数据库
-		if (databaseEnable) {
-			dbHelper.execute("saveImage", imgs);
-		}
+		return mImgs;
 	}
 
-	public List<Meitu91Image> doWork() {
+	public void doWork() {
 		String rp;
-		List<Meitu91Image> imgs = null;
 		rp = getResponseString(String.format(POINT_URL, startIndex));
 		Meitu91Response response = gson.fromJson(rp, Meitu91Response.class);
 		if (response.getCount() != 0) {
 			startIndex = response.getLastId();
-			handlerData(response.getImages());
+			List<MyImage> imgs = handlerData(response.getImages());
+			// 写入数据库
+			if (databaseEnable) {
+				dbHelper.execute("saveImage", imgs);
+			}
 		} else {
 			doAgain = false;
 		}
-		return imgs;
 	}
 
 	@Override

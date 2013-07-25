@@ -1,6 +1,6 @@
 package me.yongbo.bean;
 
-public class QiubaiObj extends Entity {
+public class QiubaiObj {
 	private String id;
 	private String content;
 	private String imgUrl;

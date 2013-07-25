@@ -15,6 +15,9 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import me.yongbo.bean.HuabanImage;
+import me.yongbo.bean.Meitu91Image;
+import me.yongbo.bean.MyImage;
 import me.yongbo.robot.util.HttpUtil;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -28,7 +31,7 @@ public class WebRobot implements Runnable {
 
 	protected static SimpleDateFormat sdf;
 
-	// 标志位，用于指示线程是否继续执行（如遇到错误，则停止运行）
+	// 标志位，用于指示线程是否循环执行
 	protected boolean doAgain = true;
 	// 是否写入数据库
 	protected boolean databaseEnable = false;
@@ -208,12 +211,34 @@ public class WebRobot implements Runnable {
 		return outStream.toByteArray();
 	}
 
-	protected String curDir;
-	protected String folderPath;
+	protected String curDir; //按照当前时间生成的目录
+	protected String folderPath; //图片存放的目錄（绝对路径）
 
 	public void initSaveDir(String rootDir) {
 		Date date = new Date();
 		curDir = sdf.format(date);
 		folderPath = rootDir + curDir;
 	}
+	
+//	protected MyImage parse2MyImage(Meitu91Image img){
+//		MyImage myImg = new MyImage();
+//		myImg.setId(img.getId());
+//		myImg.setHeight(img.getHeight());
+//		myImg.setWidth(img.getWidth());
+//		myImg.setImgUrl(img.getImgUrl());
+//		myImg.setSavePath(img.getSavePath());
+//		//myImg.setType(1);
+//		return myImg;
+//	}
+//	
+//	protected MyImage parse2MyImage(HuabanImage img){
+//		MyImage myImg = new MyImage();
+//		myImg.setId(img.getId());
+//		myImg.setHeight(img.getHeight());
+//		myImg.setWidth(img.getWidth());
+//		myImg.setImgUrl(img.getImgUrl());
+//		myImg.setSavePath(img.getSavePath());
+//		//myImg.setType(2);
+//		return myImg;
+//	}
 }

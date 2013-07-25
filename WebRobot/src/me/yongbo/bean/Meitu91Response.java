@@ -1,7 +1,7 @@
 package me.yongbo.bean;
 
 import java.util.List;
-public class Meitu91Response extends Entity {
+public class Meitu91Response {
 	private List<Meitu91Image> images;
 	private int lastId;
 	private boolean status;

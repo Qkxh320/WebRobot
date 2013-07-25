@@ -1,6 +1,6 @@
 package me.yongbo.bean;
 
-public class HuabanPin extends Entity {
+public class HuabanPin {
 	private String pin_id;
 	private HuabanImage file;
 

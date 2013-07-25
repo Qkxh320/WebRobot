@@ -5,24 +5,22 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import me.yongbo.bean.Meitu91Image;
+import me.yongbo.bean.MyImage;
 
-public class Meitu91DbHelper extends BaseDbHelper {
+public class ImageDbHelper extends BaseDbHelper {
 	
-	public void execute(String storedProcedure, List<Meitu91Image> imgs) {
+	public void execute(String storedProcedure, List<MyImage> imgs) {
 		Connection conn = getConnection();
 		CallableStatement cstmt = null;
 		try {
-			cstmt = conn.prepareCall("{CALL " + storedProcedure + "(?,?,?,?,?,?,?,?)}");
-			for(Meitu91Image img : imgs) {
-				cstmt.setInt("id", img.getId());
-				cstmt.setString("title", img.getTitle());
+			cstmt = conn.prepareCall("{CALL " + storedProcedure + "(?,?,?,?,?,?)}");
+			for(MyImage img : imgs) {
+				cstmt.setString("id", img.getId());
 				cstmt.setString("savePath", img.getSavePath());
 				cstmt.setString("imgUrl", img.getImgUrl());
-				cstmt.setString("intro", img.getIntro());
 				cstmt.setInt("width", img.getWidth());
 				cstmt.setInt("height", img.getHeight());
-				cstmt.setInt("objtype", 1);
+				cstmt.setInt("objType", img.getObjType());
 				cstmt.execute();
 			}
 		} catch (SQLException e) {
