@@ -10,6 +10,7 @@ public class MyImage extends MyEntity {
 	protected String imgUrl;
 	protected int width;
 	protected int height;
+	protected String type;
 	protected int objType; //1： 妹子  2：宠物 
 	
 	public static Map<String, Integer> OBJ_TYPE = new HashMap<>();
@@ -25,6 +26,12 @@ public class MyImage extends MyEntity {
 	}
 	public void setObjType(int objType) {
 		this.objType = objType;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	public String getId() {
 		return id;

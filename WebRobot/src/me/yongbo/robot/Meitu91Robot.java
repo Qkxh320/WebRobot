@@ -104,10 +104,12 @@ public class Meitu91Robot extends WebRobot {
 			img.setImgUrl(imgUrl);
 			img.setSavePath(curDir + fileName);
 			img.setObjType(objtype);
+			img.setType("image/" + fileType.substring(1));
 			mImgs.add(img); //转化为统一图片类型
 			//下载图片到本地
 			downImage(imgUrl, folderPath, fileName);
 		}
+		
 		return mImgs;
 	}
 
