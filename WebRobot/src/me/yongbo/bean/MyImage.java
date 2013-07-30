@@ -17,6 +17,7 @@ public class MyImage extends MyEntity {
 	
 	static {
 		OBJ_TYPE.put("meinv", 1);
+		OBJ_TYPE.put("beauty", 1);
 		OBJ_TYPE.put("pets", 2);
 		OBJ_TYPE.put("kids", 3);
 	}

@@ -14,10 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import me.yongbo.bean.HuabanImage;
-import me.yongbo.bean.Meitu91Image;
-import me.yongbo.bean.MyImage;
 import me.yongbo.robot.util.HttpUtil;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -219,26 +215,4 @@ public class WebRobot implements Runnable {
 		curDir = sdf.format(date);
 		folderPath = rootDir + curDir;
 	}
-	
-//	protected MyImage parse2MyImage(Meitu91Image img){
-//		MyImage myImg = new MyImage();
-//		myImg.setId(img.getId());
-//		myImg.setHeight(img.getHeight());
-//		myImg.setWidth(img.getWidth());
-//		myImg.setImgUrl(img.getImgUrl());
-//		myImg.setSavePath(img.getSavePath());
-//		//myImg.setType(1);
-//		return myImg;
-//	}
-//	
-//	protected MyImage parse2MyImage(HuabanImage img){
-//		MyImage myImg = new MyImage();
-//		myImg.setId(img.getId());
-//		myImg.setHeight(img.getHeight());
-//		myImg.setWidth(img.getWidth());
-//		myImg.setImgUrl(img.getImgUrl());
-//		myImg.setSavePath(img.getSavePath());
-//		//myImg.setType(2);
-//		return myImg;
-//	}
 }

@@ -1,10 +1,14 @@
 package me.yongbo.dbhelper;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import me.yongbo.bean.MyImage;
 
 public class BaseDbHelper {
 	// 连接驱动
@@ -14,7 +18,7 @@ public class BaseDbHelper {
 	// 用户名
 	private static final String USERNAME = "sa";
 	// 密码
-	private static final String PASSWORD = "sql@2013";
+	private static final String PASSWORD = "sql@2012";
 
 	
 	// 静态代码块
@@ -72,5 +76,21 @@ public class BaseDbHelper {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public ResultSet execute(String storedProcedure) {
+		Connection conn = getConnection();
+		CallableStatement cstmt = null;
+		ResultSet rs = null;
+		try {
+			cstmt = conn.prepareCall("{CALL " + storedProcedure);
+			rs = cstmt.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			close(null, cstmt, conn);
+		}
+		return rs;
 	}
 }

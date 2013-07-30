@@ -29,6 +29,6 @@ public class Main {
 		/**
 		 * 使用示例
 		 * */
-		new Thread(new HuabanRobot("93334761", "pets", true)).start(); //抓取宠物下数据
+		new Thread(new HuabanRobot("94060078", "pets", false)).start(); //抓取美女下数据
 	}
 }

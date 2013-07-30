@@ -30,4 +30,10 @@ public class ImageDbHelper extends BaseDbHelper {
 			close(null, cstmt, conn);
 		}
 	}
+	
+	public MyImage getData(){
+		
+		
+		return null;
+	}
 }
