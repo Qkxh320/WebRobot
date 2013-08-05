@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.Gson;
-
 import me.yongbo.bean.HuabanImage;
 import me.yongbo.bean.HuabanPin;
 import me.yongbo.bean.HuabanResponse;
@@ -46,20 +44,13 @@ public class HuabanRobot extends WebRobot {
 	}
 
 	private Boolean isOkImageType(String type) {
-		Boolean isImage = true;
-		switch (type) {
-		case "image/jpeg":
-			break;
-		case "image/gif":
-			break;
-		case "image/png":
-			break;
-		case "image/jpg":
-			break;
-		default:
-			isImage = false;
+		if (type.equalsIgnoreCase("image/jpeg")
+				|| type.equalsIgnoreCase("image/gif")
+				|| type.equalsIgnoreCase("image/png")
+				|| type.equalsIgnoreCase("image/jpg")) {
+			return true;
 		}
-		return isImage;
+		return false;
 	}
 
 	private List<MyImage> handlerData(List<HuabanPin> hps) {
@@ -68,8 +59,8 @@ public class HuabanRobot extends WebRobot {
 		for (HuabanPin hp : hps) {
 			img = hp.getFile();
 			String imgUrl = String.format(IMG_HOST, img.getKey());
-			if(_DEBUG){
-				System.out.println(imgUrl); //调试代码
+			if (_DEBUG) {
+				System.out.println(imgUrl); // 调试代码
 			}
 			if (isOkImageType(img.getType())) {
 				String fileType = "."
@@ -93,11 +84,11 @@ public class HuabanRobot extends WebRobot {
 	public List<MyImage> doWork() {
 		String rp = getResponseString(String.format(POINT_URL, category,
 				maxPinId, pageSize));
-		List<MyImage> imgs = new ArrayList<>();
+		List<MyImage> imgs = new ArrayList<MyImage>();
 		if (rp.isEmpty()) {
 			return imgs;
 		}
-		//System.out.println(rp);
+		// System.out.println(rp);
 		HuabanResponse response = gson.fromJson(rp, HuabanResponse.class);
 		List<HuabanPin> hps = response.getPins();
 
@@ -118,7 +109,7 @@ public class HuabanRobot extends WebRobot {
 	}
 
 	public static Map<String, String> getRequestHeaders() {
-		Map<String, String> param = new HashMap<>();
+		Map<String, String> param = new HashMap<String, String>();
 		param.put("Referer", REFERER);
 		param.put("Host", HOST);
 		param.put("X-Request", "JSON");

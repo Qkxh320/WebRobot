@@ -13,7 +13,7 @@ public class MyImage extends MyEntity {
 	protected String type;
 	protected int objType; //1： 妹子  2：宠物 
 	
-	public static Map<String, Integer> OBJ_TYPE = new HashMap<>();
+	public static Map<String, Integer> OBJ_TYPE = new HashMap<String, Integer>();
 	
 	static {
 		OBJ_TYPE.put("meinv", 1);

@@ -83,7 +83,7 @@ public class Meitu91Robot extends WebRobot {
 	}
 
 	public static Map<String, String> getRequestHeaders() {
-		Map<String, String> param = new HashMap<>();
+		Map<String, String> param = new HashMap<String, String>();
 		param.put("Referer", REFERER);
 		param.put("Host", HOST);
 		param.put("X-Requested-With", "XMLHttpRequest");
@@ -112,7 +112,7 @@ public class Meitu91Robot extends WebRobot {
 		String rp;
 		rp = getResponseString(String.format(POINT_URL, startIndex));
 		Meitu91Response response = gson.fromJson(rp, Meitu91Response.class);
-		List<MyImage> imgs = new ArrayList<>();
+		List<MyImage> imgs = new ArrayList<MyImage>();
 		if (response.getCount() != 0) {
 			startIndex = response.getLastId();
 			imgs = handlerData(response.getImages());

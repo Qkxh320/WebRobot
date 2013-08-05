@@ -40,7 +40,7 @@ public class QiubaiRobot extends WebRobot {
 	 * @param ctaegory
 	 *            分类
 	 * */
-	public QiubaiRobot(int startPage, String category, String lastTagId,
+	public QiubaiRobot(int startPage, String category,
 			Boolean databaseEnable) {
 		this(startPage, -1, category, databaseEnable);
 	}
@@ -137,7 +137,7 @@ public class QiubaiRobot extends WebRobot {
 	 * 设置http请求的头信息
 	 * */
 	private static Map<String, String> getRequestHeaders() {
-		Map<String, String> param = new HashMap<>();
+		Map<String, String> param = new HashMap<String, String>();
 		param.put("Referer", REFERER);
 		param.put("Host", HOST);
 		return param;
