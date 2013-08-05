@@ -39,6 +39,8 @@ public class WebRobot implements Runnable {
 	// protected int failCount = 0; //抓取失败次数记录
 	protected final static int MAX_FAILCOUNT = 5; // 最多失败次数，请求某个URL失败超过这个次数将自动停止发起请求
 
+	protected Boolean _DEBUG = false;
+	
 	static {
 		pool = Executors.newFixedThreadPool(20); // 固定线程池
 		sdf = new SimpleDateFormat("yyyyMMdd/HHmm/");
@@ -61,11 +63,16 @@ public class WebRobot implements Runnable {
 	 * */
 	public WebRobot() {}
 
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 	}
 
+	public void setDebugMode(Boolean debug){
+		this._DEBUG = debug;
+	}
+	
 	/**
 	 * 通过URL地址获取页面的html字符串
 	 * 

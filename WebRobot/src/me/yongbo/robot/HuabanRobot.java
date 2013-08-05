@@ -68,7 +68,9 @@ public class HuabanRobot extends WebRobot {
 		for (HuabanPin hp : hps) {
 			img = hp.getFile();
 			String imgUrl = String.format(IMG_HOST, img.getKey());
-			// System.out.println(imgUrl);
+			if(_DEBUG){
+				System.out.println(imgUrl); //调试代码
+			}
 			if (isOkImageType(img.getType())) {
 				String fileType = "."
 						+ img.getType().substring(
@@ -95,7 +97,7 @@ public class HuabanRobot extends WebRobot {
 		if (rp.isEmpty()) {
 			return imgs;
 		}
-		// System.out.println(rp);
+		//System.out.println(rp);
 		HuabanResponse response = gson.fromJson(rp, HuabanResponse.class);
 		List<HuabanPin> hps = response.getPins();
 
