@@ -86,6 +86,9 @@ public class QiubaiRobot extends WebRobot {
 		}
 	}
 
+	public void setStartPage(int page){
+		this.startPage = page;
+	}
 	public List<QiubaiObj> doWork() {
 		System.out.println("开始抓取第  " + startPage + " 页的数据");
 		String rp = getResponseString(String.format(POINT_URL, category,

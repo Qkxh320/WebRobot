@@ -3,16 +3,24 @@ package me.yongbo.robot;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import me.yongbo.bean.RobotCache;
 import me.yongbo.robot.util.HttpUtil;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -41,9 +49,12 @@ public class WebRobot implements Runnable {
 
 	protected Boolean _DEBUG = false;
 	
+	protected static RobotCache cache;
+	
 	static {
 		pool = Executors.newFixedThreadPool(20); // 固定线程池
 		sdf = new SimpleDateFormat("yyyyMMdd/HHmm/");
+		cache = new RobotCache();
 	}
 
 	/**
@@ -217,6 +228,7 @@ public class WebRobot implements Runnable {
 		return outStream.toByteArray();
 	}
 
+	
 	/*
 	protected String curDir; //按照当前时间生成的目录
 	protected String folderPath; //图片存放的目錄（绝对路径）
