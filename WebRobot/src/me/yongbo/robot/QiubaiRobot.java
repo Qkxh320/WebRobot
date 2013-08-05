@@ -15,7 +15,6 @@ import org.jsoup.select.Elements;
 import me.yongbo.bean.QiubaiObj;
 import me.yongbo.dbhelper.QiubaiDbHelper;
 import me.yongbo.robot.util.HttpUtil;
-import me.yongbo.robot.util.PropertieUtil;
 
 public class QiubaiRobot extends WebRobot {
 
@@ -31,8 +30,6 @@ public class QiubaiRobot extends WebRobot {
 	private String category;
 	private QiubaiDbHelper dbHelper;
 
-	private String lastTagId = null;
-
 	private boolean isFirst;
 
 	/**
@@ -45,7 +42,7 @@ public class QiubaiRobot extends WebRobot {
 	 * */
 	public QiubaiRobot(int startPage, String category, String lastTagId,
 			Boolean databaseEnable) {
-		this(startPage, -1, category, lastTagId, databaseEnable);
+		this(startPage, -1, category, databaseEnable);
 	}
 
 	/**
@@ -61,11 +58,9 @@ public class QiubaiRobot extends WebRobot {
 	 *            最新数据标识符
 	 * */
 
-	public QiubaiRobot(int startPage, int endPage, String category,
-			String lastTagId, Boolean databaseEnable) {
+	public QiubaiRobot(int startPage, int endPage, String category, Boolean databaseEnable) {
 		super(HttpUtil.getHttpGet(getRequestHeaders()));
 		this.category = category;
-		this.lastTagId = lastTagId;
 		this.startPage = startPage;
 		this.endPage = endPage;
 		this.databaseEnable = databaseEnable;
@@ -83,32 +78,28 @@ public class QiubaiRobot extends WebRobot {
 		}
 	}
 
+	//android环境下需删除
 	private void handlerData(List<QiubaiObj> qbs) {
-		initSaveDir(rootDir);
-		for (QiubaiObj qb : qbs) {
-			String imgUrl = qb.getImgUrl();
-			if (imgUrl != null) {
-				String fileType = imgUrl.substring(imgUrl.lastIndexOf(".") - 1);
-				String fileName = BEFORE + qb.getId() + fileType;
-				qb.setSavePath(curDir + fileName);
-				downImage(imgUrl, folderPath, fileName);
-			}
-		}
 		// 写入数据库
 		if (databaseEnable) {
 			dbHelper.execute("saveQBdata", qbs);
 		}
-
 	}
 
-	public void doWork() {
+	public List<QiubaiObj> doWork() {
 		System.out.println("开始抓取第  " + startPage + " 页的数据");
 		String rp = getResponseString(String.format(POINT_URL, category,
 				startPage));
+		List<QiubaiObj> qbs = new ArrayList<QiubaiObj>();
 		if (rp != null && rp.trim().length() > 0) {
-			handlerData(parseHtml2Obj(rp));
+			
+			qbs = parseHtml2Obj(rp);
+			
+			handlerData(qbs);//android环境下需删除
+			
 			startPage++;
 		}
+		return qbs;
 	}
 
 	public List<QiubaiObj> parseHtml2Obj(String html) {
@@ -133,16 +124,6 @@ public class QiubaiRobot extends WebRobot {
 			qbObj.setDetailUrl(detail.get(0).attr("href"));
 			if (!img.isEmpty()) {
 				qbObj.setImgUrl(img.get(0).attr("src"));
-			}
-
-			if (startPage == 1 && isFirst) {
-				PropertieUtil.write("lastTagId", qbObj.getId());
-				isFirst = false;
-			}
-			if (lastTagId != null && lastTagId.equals(qbObj.getId())) {
-				doAgain = false;
-				System.out.println("新数据抓取完毕。。。");
-				break;
 			}
 			qbObjs.add(qbObj);
 		}

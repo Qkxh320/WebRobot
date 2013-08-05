@@ -11,7 +11,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import me.yongbo.robot.util.HttpUtil;
@@ -21,7 +20,10 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.methods.GetMethod;
 
+import com.google.gson.Gson;
+
 public class WebRobot implements Runnable {
+	protected Gson gson;
 	protected HttpClient httpClient;
 	protected GetMethod getMethod;
 
@@ -51,6 +53,7 @@ public class WebRobot implements Runnable {
 	public WebRobot(GetMethod getMethod) {
 		this.httpClient = HttpUtil.getHttpClient();
 		this.getMethod = getMethod;
+		gson = new Gson();
 	}
 
 	/**
@@ -207,6 +210,7 @@ public class WebRobot implements Runnable {
 		return outStream.toByteArray();
 	}
 
+	/*
 	protected String curDir; //按照当前时间生成的目录
 	protected String folderPath; //图片存放的目錄（绝对路径）
 
@@ -214,5 +218,5 @@ public class WebRobot implements Runnable {
 		Date date = new Date();
 		curDir = sdf.format(date);
 		folderPath = rootDir + curDir;
-	}
+	}*/
 }

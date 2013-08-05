@@ -16,7 +16,7 @@ public class Main {
 		/**
 		 * 使用示例
 		 * */
-		//new Thread(new QiubaiRobot(1, "late", PropertieUtil.read("lastTagId"), false)).start(); //抓取最新下所有数据
+		//new Thread(new QiubaiRobot(1, "late", false)).start(); //抓取最新下所有数据
 		
 		
 		/**

@@ -30,7 +30,6 @@ public class HuabanRobot extends WebRobot {
 
 	private int pageSize = 20; // 每次请求默认加载数据的条数
 
-	private Gson gson;
 	protected ImageDbHelper dbHelper;
 
 	public HuabanRobot(String maxPinId, String category) {
@@ -44,7 +43,6 @@ public class HuabanRobot extends WebRobot {
 		this.databaseEnable = databaseEnable;
 		this.objtype = MyImage.OBJ_TYPE.get(category);
 		this.dbHelper = new ImageDbHelper();
-		this.gson = new Gson();
 	}
 
 	private Boolean isOkImageType(String type) {
@@ -65,7 +63,6 @@ public class HuabanRobot extends WebRobot {
 	}
 
 	private List<MyImage> handlerData(List<HuabanPin> hps) {
-		initSaveDir(rootDir);
 		HuabanImage img = null;
 		List<MyImage> mImgs = new ArrayList<MyImage>();
 		for (HuabanPin hp : hps) {
@@ -76,46 +73,39 @@ public class HuabanRobot extends WebRobot {
 				String fileType = "."
 						+ img.getType().substring(
 								img.getType().indexOf("/") + 1);
-				String fileName = BEFORE + hp.getPin_id() + fileType;
 
 				img.setId(hp.getPin_id());
 				img.setImgUrl(imgUrl);
-				img.setSavePath(curDir + fileName);
 				img.setObjType(objtype);
 				img.setType("image/" + fileType.substring(1));
-				// System.out.println(img.getSavePath());
 				mImgs.add(img); // 转化为统一图片类型
-				// 下载图片到本地
-				downImage(imgUrl, folderPath, fileName);
 			}
+		}
+		// 写入数据库
+		if (databaseEnable) {
+			dbHelper.execute("saveImage", mImgs);
 		}
 		return mImgs;
 	}
 
-	public void doWork() {
+	public List<MyImage> doWork() {
 		String rp = getResponseString(String.format(POINT_URL, category,
 				maxPinId, pageSize));
+		List<MyImage> imgs = new ArrayList<>();
 		if (rp.isEmpty()) {
-			return;
+			return imgs;
 		}
 		// System.out.println(rp);
-
 		HuabanResponse response = gson.fromJson(rp, HuabanResponse.class);
 		List<HuabanPin> hps = response.getPins();
 
 		if (hps.size() == 0) {
 			doAgain = false;
-			return;
+			return imgs;
 		}
-
 		maxPinId = hps.get(hps.size() - 1).getPin_id();
-
-		List<MyImage> mImgs = handlerData(hps);
-
-		// 写入数据库
-		if (databaseEnable) {
-			dbHelper.execute("saveImage", mImgs);
-		}
+		imgs = handlerData(hps);
+		return imgs;
 	}
 
 	@Override

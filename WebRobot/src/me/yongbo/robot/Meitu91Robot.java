@@ -11,8 +11,6 @@ import me.yongbo.bean.MyImage;
 import me.yongbo.dbhelper.ImageDbHelper;
 import me.yongbo.robot.util.HttpUtil;
 
-import com.google.gson.Gson;
-
 public class Meitu91Robot extends WebRobot {
 
 	public static String rootDir = "D:/wakao/webimage/mt91image/";
@@ -27,7 +25,7 @@ public class Meitu91Robot extends WebRobot {
 	private int endIndex;
 	private int objtype;
 
-	private Gson gson;
+	
 	protected ImageDbHelper dbHelper;
 
 	/**
@@ -81,7 +79,7 @@ public class Meitu91Robot extends WebRobot {
 		this.databaseEnable = databaseEnable;
 		this.dbHelper = new ImageDbHelper();
 		this.objtype = MyImage.OBJ_TYPE.get("meinv");
-		gson = new Gson();
+		
 	}
 
 	public static Map<String, String> getRequestHeaders() {
@@ -94,39 +92,35 @@ public class Meitu91Robot extends WebRobot {
 	}
 
 	private List<MyImage> handlerData(List<Meitu91Image> imgs) {
-		initSaveDir(rootDir);
 		List<MyImage> mImgs = new ArrayList<MyImage>();
 		for (Meitu91Image img : imgs) {
 			String imgUrl = String.format(IMG_HOST, img.getFileName());
 			String fileType = imgUrl.substring(imgUrl.lastIndexOf(".") - 1);
-			String fileName = BEFORE + img.getId() + fileType;
-			// System.out.println(imgUrl);
 			img.setImgUrl(imgUrl);
-			img.setSavePath(curDir + fileName);
 			img.setObjType(objtype);
 			img.setType("image/" + fileType.substring(1));
 			mImgs.add(img); //转化为统一图片类型
-			//下载图片到本地
-			downImage(imgUrl, folderPath, fileName);
 		}
-		
+		// 写入数据库
+		if (databaseEnable) {
+			dbHelper.execute("saveImage", mImgs);
+		}
 		return mImgs;
 	}
 
-	public void doWork() {
+	public List<MyImage> doWork() {
 		String rp;
 		rp = getResponseString(String.format(POINT_URL, startIndex));
 		Meitu91Response response = gson.fromJson(rp, Meitu91Response.class);
+		List<MyImage> imgs = new ArrayList<>();
 		if (response.getCount() != 0) {
 			startIndex = response.getLastId();
-			List<MyImage> imgs = handlerData(response.getImages());
-			// 写入数据库
-			if (databaseEnable) {
-				dbHelper.execute("saveImage", imgs);
-			}
+			imgs = handlerData(response.getImages());
+			
 		} else {
 			doAgain = false;
 		}
+		return imgs;
 	}
 
 	@Override
