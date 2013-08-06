@@ -1,4 +1,4 @@
-package me.yongbo.bean;
+package me.yongbo.robot.bean;
 
 public class HuabanPin {
 	private String pin_id;

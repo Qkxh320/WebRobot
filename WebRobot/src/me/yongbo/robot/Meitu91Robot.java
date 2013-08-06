@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.yongbo.bean.Meitu91Image;
-import me.yongbo.bean.Meitu91Response;
-import me.yongbo.bean.MyImage;
-import me.yongbo.dbhelper.ImageDbHelper;
+import me.yongbo.robot.bean.Meitu91Image;
+import me.yongbo.robot.bean.Meitu91Response;
+import me.yongbo.robot.bean.MyImage;
+import me.yongbo.robot.dbhelper.ImageDbHelper;
 import me.yongbo.robot.util.HttpUtil;
 
 public class Meitu91Robot extends WebRobot {

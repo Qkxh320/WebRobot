@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 /*
  * @author yongbo_
  * @time 2013/6/24
+ * 
  * */
 public class RobotClient implements Runnable {
 	private String lang;

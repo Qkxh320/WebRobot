@@ -1,4 +1,4 @@
-package me.yongbo.bean;
+package me.yongbo.robot.bean;
 
 public class Meitu91Image extends MyImage {
 	

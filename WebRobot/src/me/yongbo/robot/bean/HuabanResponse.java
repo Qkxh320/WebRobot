@@ -1,4 +1,4 @@
-package me.yongbo.bean;
+package me.yongbo.robot.bean;
 
 import java.util.List;
 public class HuabanResponse {

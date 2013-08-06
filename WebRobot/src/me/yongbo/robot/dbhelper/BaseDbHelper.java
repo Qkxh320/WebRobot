@@ -1,4 +1,4 @@
-package me.yongbo.dbhelper;
+package me.yongbo.robot.dbhelper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import me.yongbo.bean.MyImage;
+import me.yongbo.robot.bean.MyImage;
 
 public class BaseDbHelper {
 	// 连接驱动

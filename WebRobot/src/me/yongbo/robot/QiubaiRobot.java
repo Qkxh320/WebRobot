@@ -12,8 +12,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import me.yongbo.bean.QiubaiObj;
-import me.yongbo.dbhelper.QiubaiDbHelper;
+import me.yongbo.robot.bean.QiubaiObj;
+import me.yongbo.robot.dbhelper.QiubaiDbHelper;
 import me.yongbo.robot.util.HttpUtil;
 
 public class QiubaiRobot extends WebRobot {

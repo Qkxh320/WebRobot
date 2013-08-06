@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.yongbo.bean.HuabanImage;
-import me.yongbo.bean.HuabanPin;
-import me.yongbo.bean.HuabanResponse;
-import me.yongbo.bean.MyImage;
-import me.yongbo.dbhelper.ImageDbHelper;
+import me.yongbo.robot.bean.HuabanImage;
+import me.yongbo.robot.bean.HuabanPin;
+import me.yongbo.robot.bean.HuabanResponse;
+import me.yongbo.robot.bean.MyImage;
+import me.yongbo.robot.dbhelper.ImageDbHelper;
 import me.yongbo.robot.util.HttpUtil;
 
 public class HuabanRobot extends WebRobot {

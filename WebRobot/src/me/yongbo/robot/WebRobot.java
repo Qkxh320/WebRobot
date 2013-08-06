@@ -3,16 +3,10 @@ package me.yongbo.robot;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
@@ -20,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import me.yongbo.bean.RobotCache;
+import me.yongbo.robot.bean.RobotCache;
 import me.yongbo.robot.util.HttpUtil;
 
 import org.apache.commons.httpclient.HttpClient;

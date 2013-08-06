@@ -16,7 +16,7 @@ public class Main {
 		/**
 		 * 使用示例
 		 * */
-		new Thread(new QiubaiRobot(1, "late", false)).start(); //抓取最新下所有数据
+		//new Thread(new QiubaiRobot(1, "late", false)).start(); //抓取最新下所有数据
 		
 		
 		/**
@@ -31,6 +31,6 @@ public class Main {
 		 * */
 		HuabanRobot hr = new HuabanRobot("94060078", "pets", false);
 		hr.setDebugMode(true);
-		new Thread(hr).start(); //抓取美女下数据
+		new Thread(hr).start(); //抓取宠物下数据
 	}
 }

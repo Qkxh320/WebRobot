@@ -1,4 +1,4 @@
-package me.yongbo.bean;
+package me.yongbo.robot.bean;
 
 import java.util.HashMap;
 import java.util.Map;

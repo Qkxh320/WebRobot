@@ -1,11 +1,11 @@
-package me.yongbo.dbhelper;
+package me.yongbo.robot.dbhelper;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import me.yongbo.bean.QiubaiObj;
+import me.yongbo.robot.bean.QiubaiObj;
 
 public class QiubaiDbHelper extends BaseDbHelper {
 
