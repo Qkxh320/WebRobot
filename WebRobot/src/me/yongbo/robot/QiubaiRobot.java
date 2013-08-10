@@ -12,8 +12,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import me.yongbo.robot.bean.FunnyObj;
 import me.yongbo.robot.bean.QiubaiObj;
-import me.yongbo.robot.dbhelper.QiubaiDbHelper;
+import me.yongbo.robot.dbhelper.FunnyDbHelper;
 import me.yongbo.robot.util.HttpUtil;
 
 public class QiubaiRobot extends WebRobot {
@@ -28,10 +29,9 @@ public class QiubaiRobot extends WebRobot {
 	private int startPage;
 	private int endPage;
 	private String category;
-	private QiubaiDbHelper dbHelper;
+	private FunnyDbHelper dbHelper;
 
 	private boolean isFirst;
-
 	/**
 	 * 构造函数
 	 * 
@@ -40,10 +40,13 @@ public class QiubaiRobot extends WebRobot {
 	 * @param ctaegory
 	 *            分类
 	 * */
-	public QiubaiRobot(int startPage, String category,
-			Boolean databaseEnable) {
-		this(startPage, -1, category, databaseEnable);
+	public QiubaiRobot(int startPage, String category) {
+		this(startPage, -1, category, false);
 	}
+	public QiubaiRobot(int startPage, int endPage, String category) {
+		this(startPage, endPage, category, false);
+	}
+
 
 	/**
 	 * 构造函数
@@ -54,8 +57,8 @@ public class QiubaiRobot extends WebRobot {
 	 *            结束页码
 	 * @param ctaegory
 	 *            分类
-	 * @param lastTagId
-	 *            最新数据标识符
+	 * @param databaseEnable
+	 *            是否写入数据库
 	 * */
 
 	public QiubaiRobot(int startPage, int endPage, String category, Boolean databaseEnable) {
@@ -65,7 +68,7 @@ public class QiubaiRobot extends WebRobot {
 		this.endPage = endPage;
 		this.databaseEnable = databaseEnable;
 		this.isFirst = startPage == 1 ? true : false;
-		this.dbHelper = new QiubaiDbHelper();
+		this.dbHelper = new FunnyDbHelper();
 	}
 
 	@Override
@@ -78,11 +81,12 @@ public class QiubaiRobot extends WebRobot {
 		}
 	}
 
-	//android环境下需删除
 	private void handlerData(List<QiubaiObj> qbs) {
+		List<FunnyObj> funnyObjs = new ArrayList<FunnyObj>();
+		funnyObjs.addAll(qbs);
 		// 写入数据库
 		if (databaseEnable) {
-			dbHelper.execute("saveQBdata", qbs);
+			dbHelper.execute("saveFunnyData", funnyObjs);
 		}
 	}
 
@@ -98,7 +102,7 @@ public class QiubaiRobot extends WebRobot {
 			
 			qbs = parseHtml2Obj(rp);
 			
-			handlerData(qbs);//android环境下需删除
+			handlerData(qbs);
 			
 			startPage++;
 		}
@@ -124,7 +128,8 @@ public class QiubaiRobot extends WebRobot {
 			qbObj.setId(getFilterId(ele.attr("id")));
 			qbObj.setCreatetime(content.attr("title"));
 			qbObj.setContent(content.text());
-			qbObj.setDetailUrl(detail.get(0).attr("href"));
+			qbObj.setSource(HOST + detail.get(0).attr("href"));
+			qbObj.setFrom("糗事百科");
 			if (!img.isEmpty()) {
 				qbObj.setImgUrl(img.get(0).attr("src"));
 			}

@@ -18,7 +18,7 @@ public class BaseDbHelper {
 	// 用户名
 	private static final String USERNAME = "sa";
 	// 密码
-	private static final String PASSWORD = "sql@2012";
+	private static final String PASSWORD = "sql@2013";
 
 	
 	// 静态代码块

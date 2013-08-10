@@ -16,7 +16,7 @@ public class Main {
 		/**
 		 * 使用示例
 		 * */
-		//new Thread(new QiubaiRobot(1, "late", false)).start(); //抓取最新下所有数据
+		new Thread(new QiubaiRobot(1, 2, "late")).start(); //抓取最新下所有数据
 		
 		
 		/**
@@ -24,13 +24,12 @@ public class Main {
 		 * */
 		//http://meitu91.b0.upaiyun.com/
 		//new Thread(new Meitu91Robot(1, 100, true)).start(); //抓取最新下数据
-		
-		
+
 		/**
 		 * 使用示例
 		 * */
-		HuabanRobot hr = new HuabanRobot("94060078", "pets", false);
-		hr.setDebugMode(true);
-		new Thread(hr).start(); //抓取宠物下数据
+		//HuabanRobot hr = new HuabanRobot("94060078", "pets", false);
+		//hr.setDebugMode(true);
+		//new Thread(hr).start(); //抓取宠物下数据
 	}
 }
