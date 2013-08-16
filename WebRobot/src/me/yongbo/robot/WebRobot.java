@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
@@ -14,20 +15,19 @@ import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+
 import me.yongbo.robot.bean.RobotCache;
 import me.yongbo.robot.util.HttpUtil;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.methods.GetMethod;
 
 import com.google.gson.Gson;
 
 public class WebRobot implements Runnable {
 	protected Gson gson;
 	protected HttpClient httpClient;
-	protected GetMethod getMethod;
+	protected HttpGet getMethod;
 
 	protected static SimpleDateFormat sdf;
 
@@ -57,7 +57,7 @@ public class WebRobot implements Runnable {
 	 * @param getMethod
 	 *            一个GetMethod实例
 	 * */
-	public WebRobot(GetMethod getMethod) {
+	public WebRobot(HttpGet getMethod) {
 		this.httpClient = HttpUtil.getHttpClient();
 		this.getMethod = getMethod;
 		gson = new Gson();
@@ -92,7 +92,7 @@ public class WebRobot implements Runnable {
 		do {
 			try {
 				getMethod.setURI(new URI(url));
-				int status = httpClient.executeMethod(getMethod);
+				int status = httpClient.execute(getMethod);
 				if (status != HttpStatus.SC_OK) {
 					return null;
 				}
