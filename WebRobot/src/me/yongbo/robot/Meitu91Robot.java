@@ -109,8 +109,12 @@ public class Meitu91Robot extends WebRobot {
 	}
 
 	public List<MyImage> doWork() {
-		String rp;
-		rp = getResponseString(String.format(POINT_URL, startIndex));
+		String rp = getResponseString(String.format(POINT_URL, startIndex));
+		if(rp == null){ 
+			System.out.println("没有抓取到数据...");
+			return null;
+		}
+		System.out.println(rp);
 		Meitu91Response response = gson.fromJson(rp, Meitu91Response.class);
 		List<MyImage> imgs = new ArrayList<MyImage>();
 		if (response.getCount() != 0) {

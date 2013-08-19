@@ -15,8 +15,12 @@ import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import me.yongbo.robot.bean.RobotCache;
 import me.yongbo.robot.util.HttpUtil;
@@ -92,11 +96,13 @@ public class WebRobot implements Runnable {
 		do {
 			try {
 				getMethod.setURI(new URI(url));
-				int status = httpClient.execute(getMethod);
-				if (status != HttpStatus.SC_OK) {
+				HttpResponse response = httpClient.execute(getMethod);
+				int status = response.getStatusLine().getStatusCode();
+				HttpEntity entity = response.getEntity();
+				if (status != HttpStatus.SC_OK || entity == null) {
 					return null;
 				}
-				isr = new InputStreamReader(getMethod.getResponseBodyAsStream());
+				isr = new InputStreamReader(entity.getContent());
 				BufferedReader bufReader = new BufferedReader(isr);
 				while ((lineText = bufReader.readLine()) != null) {
 					sb.append(lineText);
@@ -114,7 +120,6 @@ public class WebRobot implements Runnable {
 				} catch (IOException e) {
 					// e.printStackTrace();
 				}
-				getMethod.releaseConnection();
 			}
 		} while (failCount < MAX_FAILCOUNT);
 		return sb.toString();
@@ -165,13 +170,14 @@ public class WebRobot implements Runnable {
 			@Override
 			public void run() {
 				HttpClient client = HttpUtil.getHttpClient();
-				GetMethod get = new GetMethod(imgUrl);
+				HttpGet get = new HttpGet(imgUrl);
 				int failCount = 1;
 				do {
 					try {
-						int status_code = client.executeMethod(get);
-						if (status_code == HttpStatus.SC_OK) {
-							byte[] data = readFromResponse(get);
+						HttpResponse response = client.execute(get);
+						HttpEntity entity = response.getEntity();
+						if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK && entity != null) {
+							byte[] data = readFromResponse(entity);
 							String savePaht = folderPath + fileName;
 							File imageFile = new File(savePaht);
 							FileOutputStream outStream = new FileOutputStream(
@@ -185,17 +191,17 @@ public class WebRobot implements Runnable {
 						System.err.println("对于图片" + imgUrl + "第" + failCount
 								+ "次下载失败,正在尝试重新下载...");
 					} finally {
-						get.releaseConnection();
+						
 					}
 				} while (failCount < MAX_FAILCOUNT);
 			}
 		});
 	}
 
-	public static byte[] readFromResponse(GetMethod get) throws Exception {
-		InputStream inStream = get.getResponseBodyAsStream();
+	public static byte[] readFromResponse(HttpEntity entity) throws Exception {
+		InputStream inStream = entity.getContent();
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		long length = get.getResponseContentLength();
+		long length = entity.getContentLength();
 		// 显示文件大小格式：2个小数点显示
 		DecimalFormat df = new DecimalFormat("0.00");
 		// 总文件大小
