@@ -30,9 +30,7 @@ public class Main {
 		/**
 		 * 使用示例
 		 * */
-		HuabanRobot hr = new HuabanRobot("94060078", "pets", true);
-		hr.setDebugMode(true);
-		new Thread(hr).start(); //抓取宠物下数据
+		new Thread(new HuabanRobot("94060078", "pets", false)).start(); //抓取宠物下数据
 		
 	}
 }

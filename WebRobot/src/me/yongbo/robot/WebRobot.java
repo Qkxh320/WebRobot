@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutorService;
@@ -20,7 +18,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import me.yongbo.robot.bean.RobotCache;
 import me.yongbo.robot.util.HttpUtil;
@@ -45,7 +42,7 @@ public class WebRobot implements Runnable {
 	// protected int failCount = 0; //抓取失败次数记录
 	protected final static int MAX_FAILCOUNT = 5; // 最多失败次数，请求某个URL失败超过这个次数将自动停止发起请求
 
-	protected Boolean _DEBUG = false;
+	protected Boolean _DEBUG = true;
 	
 	protected static RobotCache cache;
 	
@@ -110,8 +107,10 @@ public class WebRobot implements Runnable {
 				break;
 			} catch (Exception e) {
 				failCount++;
-				System.err.println("对于链接:" + url + " 第" + failCount
-						+ "次抓取失敗，正在尝试重新抓取...");
+				if(_DEBUG){
+					System.err.println("对于链接:" + url + " 第" + failCount
+							+ "次抓取失敗，正在尝试重新抓取...");
+				}
 			} finally {
 				try {
 					if (isr != null) {
@@ -122,29 +121,6 @@ public class WebRobot implements Runnable {
 				}
 			}
 		} while (failCount < MAX_FAILCOUNT);
-		return sb.toString();
-	}
-
-	/**
-	 * 发起http请求
-	 * 
-	 * @param webUrl
-	 *            请求连接地址
-	 * */
-	public String httpGet(String webUrl) throws Exception {
-		URL url;
-		URLConnection conn;
-		StringBuilder sb = new StringBuilder();
-		url = new URL(webUrl);
-		conn = url.openConnection();
-		conn.connect();
-		InputStream is = conn.getInputStream();
-		InputStreamReader isr = new InputStreamReader(is);
-		BufferedReader bufReader = new BufferedReader(isr);
-		String lineText;
-		while ((lineText = bufReader.readLine()) != null) {
-			sb.append(lineText);
-		}
 		return sb.toString();
 	}
 
@@ -188,8 +164,10 @@ public class WebRobot implements Runnable {
 						break;
 					} catch (Exception e) {
 						failCount++;
-						System.err.println("对于图片" + imgUrl + "第" + failCount
-								+ "次下载失败,正在尝试重新下载...");
+						if(_DEBUG){
+							System.err.println("对于图片" + imgUrl + "第" + failCount
+									+ "次下载失败,正在尝试重新下载...");
+						}
 					} finally {
 						
 					}
@@ -227,7 +205,10 @@ public class WebRobot implements Runnable {
 		inStream.close();
 		return outStream.toByteArray();
 	}
-
+	
+	protected void shutdownRobot(){
+		httpClient.getConnectionManager().shutdown();
+	}
 	
 	/*
 	protected String curDir; //按照当前时间生成的目录

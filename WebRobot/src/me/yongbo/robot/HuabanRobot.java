@@ -106,6 +106,7 @@ public class HuabanRobot extends WebRobot {
 		while (doAgain) {
 			doWork();
 		}
+		shutdownRobot();
 	}
 
 	public static Map<String, String> getRequestHeaders() {

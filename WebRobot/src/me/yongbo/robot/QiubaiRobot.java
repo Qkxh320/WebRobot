@@ -79,6 +79,7 @@ public class QiubaiRobot extends WebRobot {
 			}
 			doWork();
 		}
+		shutdownRobot();
 	}
 
 	private void handlerData(List<QiubaiObj> qbs) {
