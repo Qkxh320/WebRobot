@@ -2,10 +2,13 @@ package me.yongbo.robot.bean;
 
 public class FunnyObj extends MyEntity {
 	private String id;
+	private String userId;
+	private String userName;
 	private String from;
 	private String source;
 	private String content;
 	private String imgUrl;
+	private String createTime;
 	public String getId() {
 		return id;
 	}
@@ -36,4 +39,23 @@ public class FunnyObj extends MyEntity {
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+	
 }

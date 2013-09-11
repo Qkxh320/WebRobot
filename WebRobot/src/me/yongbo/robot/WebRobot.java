@@ -69,7 +69,9 @@ public class WebRobot implements Runnable {
 	 * */
 	public WebRobot() {}
 
-	
+	public void setDatabaseEnable(boolean isDatabaseEnable){
+		this.databaseEnable = isDatabaseEnable;
+	}
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub

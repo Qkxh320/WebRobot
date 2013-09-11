@@ -2,7 +2,7 @@ package me.yongbo.robot.bean;
 
 public class QiubaiObj extends FunnyObj {
 	
-	private String createtime;
+	
 	private String detailUrl;
 	private String savePath;
 
@@ -22,11 +22,4 @@ public class QiubaiObj extends FunnyObj {
 		this.detailUrl = detailUrl;
 	}
 
-	public String getCreatetime() {
-		return createtime;
-	}
-
-	public void setCreatetime(String createtime) {
-		this.createtime = createtime;
-	}
 }

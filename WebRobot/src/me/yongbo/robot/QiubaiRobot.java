@@ -94,10 +94,12 @@ public class QiubaiRobot extends WebRobot {
 	public void setStartPage(int page){
 		this.startPage = page;
 	}
+	
 	public List<QiubaiObj> doWork() {
 		System.out.println("开始抓取第  " + startPage + " 页的数据");
 		String rp = getResponseString(String.format(POINT_URL, category,
 				startPage));
+		
 		List<QiubaiObj> qbs = new ArrayList<QiubaiObj>();
 		if (rp != null && rp.trim().length() > 0) {
 			
@@ -115,7 +117,7 @@ public class QiubaiRobot extends WebRobot {
 		Elements eles = doc.getElementsByClass("block");
 		List<QiubaiObj> qbObjs = new ArrayList<QiubaiObj>();
 		if (eles.isEmpty()) {
-			doAgain = false;
+			//doAgain = false;
 			System.out.println("数据为空, 结束抓取。。。");
 			return qbObjs;
 		}
@@ -127,7 +129,7 @@ public class QiubaiRobot extends WebRobot {
 
 			qbObj = new QiubaiObj();
 			qbObj.setId(getFilterId(ele.attr("id")));
-			qbObj.setCreatetime(content.attr("title"));
+			qbObj.setCreateTime(content.attr("title"));
 			qbObj.setContent(content.text());
 			qbObj.setSource(HOST + detail.get(0).attr("href"));
 			qbObj.setFrom("糗事百科");

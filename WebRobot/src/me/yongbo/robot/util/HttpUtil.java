@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 public class HttpUtil {
@@ -27,5 +28,15 @@ public class HttpUtil {
 		}
 		
 		return httpGet;
+	}
+	public static HttpPost getHttpPost(Map<String, String> headers) {
+		HttpPost httpPost = new HttpPost();
+		
+		httpPost.setHeader("User-Agent", USER_AGENT);
+		for(String k : headers.keySet()){
+			httpPost.setHeader(k, headers.get(k));
+		}
+		
+		return httpPost;
 	}
 }

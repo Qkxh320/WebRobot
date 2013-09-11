@@ -3,6 +3,7 @@ package me.yongbo;
 
 import java.util.Map;
 
+import me.yongbo.robot.DatabaseRobot;
 import me.yongbo.robot.HuabanRobot;
 import me.yongbo.robot.Meitu91Robot;
 import me.yongbo.robot.QiubaiRobot;
@@ -20,7 +21,6 @@ public class Main {
 		 * */
 		//new Thread(new QiubaiRobot(1, 2, "late")).start(); //抓取最新下所有数据
 		
-		
 		/**
 		 * 使用示例
 		 * */
@@ -30,7 +30,6 @@ public class Main {
 		/**
 		 * 使用示例
 		 * */
-		new Thread(new HuabanRobot("94060078", "pets", false)).start(); //抓取宠物下数据
-		
+		//new Thread(new HuabanRobot("94060078", "pets", false)).start(); //抓取宠物下数据
 	}
 }
