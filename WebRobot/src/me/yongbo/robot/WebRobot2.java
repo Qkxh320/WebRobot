@@ -29,11 +29,14 @@ import me.yongbo.robot.util.HttpUtil;
 import com.google.gson.Gson;
 
 public abstract class WebRobot2 implements Runnable {
+	protected final static String TCP = "http://";
+	
 	protected Gson gson;
 	protected HttpClient httpClient;
 	protected HttpGet getMethod;
 
 	protected static SimpleDateFormat sdf;
+	protected static SimpleDateFormat dateFormat;
 
 	// 标志位，用于指示线程是否循环执行
 	protected boolean doAgain = true;
@@ -46,9 +49,12 @@ public abstract class WebRobot2 implements Runnable {
 	
 	//protected static RobotCache cache;
 	
+	protected DatabaseRobot dbRobot;
+	
 	static {
 		pool = Executors.newFixedThreadPool(20); // 固定线程池
 		sdf = new SimpleDateFormat("yyyyMMdd/HHmm/");
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		//cache = new RobotCache();
 	}
 

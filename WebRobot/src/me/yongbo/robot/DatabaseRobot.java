@@ -2,9 +2,9 @@ package me.yongbo.robot;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
+
+import me.yongbo.robot.bean.MyEntity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,11 +15,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-public class DatabaseRobot {
+public abstract class DatabaseRobot {
+	public abstract void doWork(MyEntity obj);
 	
-	public void postDataToServer(List<NameValuePair> nvs) {
+	public void postDataToServer(List<NameValuePair> nvs, String url) {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
-		HttpPost httpost = new HttpPost("http://localhost:58167/api/add.php");
+		HttpPost httpost = new HttpPost(url);
 		try {
 			// 设置表单提交编码为UTF-8
 			try {

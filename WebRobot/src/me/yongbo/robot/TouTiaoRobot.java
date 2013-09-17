@@ -19,6 +19,8 @@ public class TouTiaoRobot extends WebRobot2 {
 	
 	private int startPage;
 	private int endPage;
+	
+	
 	public TouTiaoRobot(int startPage) {
 		this.startPage = startPage;
 		this.endPage = -1;
@@ -38,6 +40,7 @@ public class TouTiaoRobot extends WebRobot2 {
 	public TouTiaoRobot(int startPage, int endPage) {
 		this.startPage = startPage;
 		this.endPage = endPage;
+		this.dbRobot = new FunnyDataRobot();
 	}
 	
 	@Override
@@ -72,8 +75,10 @@ public class TouTiaoRobot extends WebRobot2 {
 			obj.setFrom("头条网");
 			obj.setCreateTime(tObj.getDatetime());
 			obj.setContent(tObj.getText());
+			dbRobot.doWork(obj);
 			objs.add(obj);
 		}
+		
 		return objs;
 	}
 

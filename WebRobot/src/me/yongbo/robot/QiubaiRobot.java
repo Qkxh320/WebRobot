@@ -69,6 +69,7 @@ public class QiubaiRobot extends WebRobot {
 		this.databaseEnable = databaseEnable;
 		this.isFirst = startPage == 1 ? true : false;
 		this.dbHelper = new FunnyDbHelper();
+		this.dbRobot = new FunnyDataRobot();
 	}
 
 	@Override
@@ -117,8 +118,7 @@ public class QiubaiRobot extends WebRobot {
 		Elements eles = doc.getElementsByClass("block");
 		List<QiubaiObj> qbObjs = new ArrayList<QiubaiObj>();
 		if (eles.isEmpty()) {
-			//doAgain = false;
-			System.out.println("数据为空, 结束抓取。。。");
+			System.out.println("数据为空。。。");
 			return qbObjs;
 		}
 		QiubaiObj qbObj = null;
@@ -126,6 +126,7 @@ public class QiubaiRobot extends WebRobot {
 			Element content = ele.getElementsByClass("content").first();
 			Elements img = ele.select(".thumb img");
 			Elements detail = ele.select(".detail a");
+			Elements author = ele.select(".author a");
 
 			qbObj = new QiubaiObj();
 			qbObj.setId(getFilterId(ele.attr("id")));
@@ -133,9 +134,13 @@ public class QiubaiRobot extends WebRobot {
 			qbObj.setContent(content.text());
 			qbObj.setSource(HOST + detail.get(0).attr("href"));
 			qbObj.setFrom("糗事百科");
+			if(!author.isEmpty()){
+				qbObj.setUserName(author.get(0).text());
+			}
 			if (!img.isEmpty()) {
 				qbObj.setImgUrl(img.get(0).attr("src"));
 			}
+			dbRobot.doWork(qbObj);
 			qbObjs.add(qbObj);
 		}
 		return qbObjs;

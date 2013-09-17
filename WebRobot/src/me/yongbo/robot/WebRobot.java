@@ -46,6 +46,8 @@ public class WebRobot implements Runnable {
 	
 	protected static RobotCache cache;
 	
+	protected DatabaseRobot dbRobot;
+	
 	static {
 		pool = Executors.newFixedThreadPool(20); // 固定线程池
 		sdf = new SimpleDateFormat("yyyyMMdd/HHmm/");

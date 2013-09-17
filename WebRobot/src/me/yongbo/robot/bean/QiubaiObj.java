@@ -5,6 +5,7 @@ public class QiubaiObj extends FunnyObj {
 	
 	private String detailUrl;
 	private String savePath;
+	private String author;
 
 	public String getSavePath() {
 		return savePath;
@@ -22,4 +23,12 @@ public class QiubaiObj extends FunnyObj {
 		this.detailUrl = detailUrl;
 	}
 
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	
 }
