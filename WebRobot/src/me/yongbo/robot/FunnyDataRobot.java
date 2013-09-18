@@ -10,8 +10,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 public class FunnyDataRobot extends DatabaseRobot {
-	public static final String addfunny_url = "http://api.wakao.me/api/addFunny.php";
-	
+	//public static final String addfunny_url = "http://api.wakao.me/api/addFunny.php";
+	public static final String addfunny_url = "http://apiforandroid.duapp.com/funny/add";
 	@Override
 	public void doWork(MyEntity entity){
 		FunnyObj obj = (FunnyObj)entity;

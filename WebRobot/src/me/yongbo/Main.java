@@ -44,7 +44,7 @@ public class Main {
 		/**
 		 * 使用示例
 		 * */
-		new Thread(new LengxiaohuaRobot(1, 1)).start(); //抓取段子下所有数据
+		new Thread(new LengxiaohuaRobot(2, 10)).start(); //抓取段子下所有数据
 		
 	}
 }
