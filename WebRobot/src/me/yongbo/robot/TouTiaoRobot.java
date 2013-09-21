@@ -13,7 +13,7 @@ import me.yongbo.robot.bean.TouTiaoResponse;
 public class TouTiaoRobot extends WebRobot2 {
 	private final static String HOST = "www.toutiao.com";
 	private final static String REFERER = "www.toutiao.com";
-	private final static String POINT_URL = "http://www.toutiao.com/api/essay/recent/recent?callback=&tag=joke&count=20&max_behot_time=1379379925&offset=0&_=1379387432983";
+	private final static String POINT_URL = "http://www.toutiao.com/api/essay/recent/recent?callback=&tag=joke&count=20&max_behot_time=1379678287&offset=0";
 	
 	
 	
@@ -22,8 +22,7 @@ public class TouTiaoRobot extends WebRobot2 {
 	
 	
 	public TouTiaoRobot(int startPage) {
-		this.startPage = startPage;
-		this.endPage = -1;
+		this(startPage, -1);
 	}
 	/**
 	 * 构造函数
@@ -40,7 +39,6 @@ public class TouTiaoRobot extends WebRobot2 {
 	public TouTiaoRobot(int startPage, int endPage) {
 		this.startPage = startPage;
 		this.endPage = endPage;
-		this.dbRobot = new FunnyDataRobot();
 	}
 	
 	@Override
@@ -75,7 +73,7 @@ public class TouTiaoRobot extends WebRobot2 {
 			obj.setFrom("头条网");
 			obj.setCreateTime(tObj.getDatetime());
 			obj.setContent(tObj.getText());
-			dbRobot.doWork(obj);
+			dbRobot.AddFunnyData(obj);
 			objs.add(obj);
 		}
 		

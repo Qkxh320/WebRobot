@@ -16,7 +16,6 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 public abstract class DatabaseRobot {
-	public abstract void doWork(MyEntity obj);
 	
 	public void postDataToServer(List<NameValuePair> nvs, String url) {
 		DefaultHttpClient httpclient = new DefaultHttpClient();

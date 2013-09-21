@@ -12,6 +12,7 @@ import java.security.ProtectionDomain;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,6 +23,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 
+import me.yongbo.robot.bean.MyEntity;
 import me.yongbo.robot.bean.RobotCache;
 import me.yongbo.robot.util.HttpUtil;
 
@@ -49,10 +51,10 @@ public abstract class WebRobot2 implements Runnable {
 	
 	//protected static RobotCache cache;
 	
-	protected DatabaseRobot dbRobot;
+	protected DataRobot dbRobot;
 	
 	static {
-		pool = Executors.newFixedThreadPool(20); // 固定线程池
+		pool = Executors.newFixedThreadPool(50); // 固定线程池
 		sdf = new SimpleDateFormat("yyyyMMdd/HHmm/");
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		//cache = new RobotCache();
@@ -65,6 +67,7 @@ public abstract class WebRobot2 implements Runnable {
 		this.httpClient = HttpUtil.getHttpClient();
 		this.getMethod = HttpUtil.getHttpGet(getRequestHeaders());
 		this.gson = new Gson();
+		this.dbRobot = new DataRobot();
 	}
 	/**
 	 * 通过URL地址获取页面的html字符串
@@ -200,4 +203,5 @@ public abstract class WebRobot2 implements Runnable {
 	 * 设置http请求的头信息
 	 * */
 	protected abstract Map<String, String> getRequestHeaders();
+	protected abstract Object parseHtml2Obj(String html);
 }

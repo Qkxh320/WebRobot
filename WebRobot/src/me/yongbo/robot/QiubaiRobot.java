@@ -17,10 +17,10 @@ import me.yongbo.robot.bean.QiubaiObj;
 import me.yongbo.robot.dbhelper.FunnyDbHelper;
 import me.yongbo.robot.util.HttpUtil;
 
-public class QiubaiRobot extends WebRobot {
+public class QiubaiRobot extends WebRobot2 {
 
-	public static String rootDir = "D:/wakao/webimage/qbimage/";
-	private final static String BEFORE = "qb_";
+//	public static String rootDir = "D:/wakao/webimage/qbimage/";
+//	private final static String BEFORE = "qb_";
 
 	private final static String HOST = "www.qiushibaike.com";
 	private final static String REFERER = "www.qiushibaike.com";
@@ -29,9 +29,7 @@ public class QiubaiRobot extends WebRobot {
 	private int startPage;
 	private int endPage;
 	private String category;
-	private FunnyDbHelper dbHelper;
 
-	private boolean isFirst;
 	/**
 	 * 构造函数
 	 * 
@@ -62,14 +60,10 @@ public class QiubaiRobot extends WebRobot {
 	 * */
 
 	public QiubaiRobot(int startPage, int endPage, String category, Boolean databaseEnable) {
-		super(HttpUtil.getHttpGet(getRequestHeaders()));
 		this.category = category;
 		this.startPage = startPage;
 		this.endPage = endPage;
-		this.databaseEnable = databaseEnable;
-		this.isFirst = startPage == 1 ? true : false;
-		this.dbHelper = new FunnyDbHelper();
-		this.dbRobot = new FunnyDataRobot();
+		
 	}
 
 	@Override
@@ -83,15 +77,6 @@ public class QiubaiRobot extends WebRobot {
 		shutdownRobot();
 	}
 
-	private void handlerData(List<QiubaiObj> qbs) {
-		List<FunnyObj> funnyObjs = new ArrayList<FunnyObj>();
-		funnyObjs.addAll(qbs);
-		// 写入数据库
-		if (databaseEnable) {
-			dbHelper.execute("saveFunnyData", funnyObjs);
-		}
-	}
-
 	public void setStartPage(int page){
 		this.startPage = page;
 	}
@@ -103,53 +88,50 @@ public class QiubaiRobot extends WebRobot {
 		
 		List<QiubaiObj> qbs = new ArrayList<QiubaiObj>();
 		if (rp != null && rp.trim().length() > 0) {
-			
 			qbs = parseHtml2Obj(rp);
-			
-			handlerData(qbs);
-			
-			startPage++;
 		}
+		startPage++;
 		return qbs;
 	}
 
 	public List<QiubaiObj> parseHtml2Obj(String html) {
 		Document doc = Jsoup.parse(html);
 		Elements eles = doc.getElementsByClass("block");
-		List<QiubaiObj> qbObjs = new ArrayList<QiubaiObj>();
 		if (eles.isEmpty()) {
 			System.out.println("数据为空。。。");
-			return qbObjs;
+			return null;
 		}
-		QiubaiObj qbObj = null;
+		List<QiubaiObj> objs = new ArrayList<QiubaiObj>();
+		QiubaiObj obj = null;
 		for (Element ele : eles) {
 			Element content = ele.getElementsByClass("content").first();
 			Elements img = ele.select(".thumb img");
 			Elements detail = ele.select(".detail a");
 			Elements author = ele.select(".author a");
 
-			qbObj = new QiubaiObj();
-			qbObj.setId(getFilterId(ele.attr("id")));
-			qbObj.setCreateTime(content.attr("title"));
-			qbObj.setContent(content.text());
-			qbObj.setSource(HOST + detail.get(0).attr("href"));
-			qbObj.setFrom("糗事百科");
+			obj = new QiubaiObj();
+			obj.setId(getFilterId(ele.attr("id")));
+			obj.setCreateTime(content.attr("title"));
+			obj.setContent(content.text());
+			obj.setSource(HOST + detail.get(0).attr("href"));
+			obj.setFrom("糗事百科");
 			if(!author.isEmpty()){
-				qbObj.setUserName(author.get(0).text());
+				obj.setUserName(author.get(0).text());
 			}
 			if (!img.isEmpty()) {
-				qbObj.setImgUrl(img.get(0).attr("src"));
+				obj.setImgUrl(img.get(0).attr("src"));
 			}
-			dbRobot.doWork(qbObj);
-			qbObjs.add(qbObj);
+			dbRobot.AddFunnyData(obj);
+			objs.add(obj);
 		}
-		return qbObjs;
+		return objs;
 	}
 
 	/**
 	 * 设置http请求的头信息
 	 * */
-	private static Map<String, String> getRequestHeaders() {
+	@Override
+	protected Map<String, String> getRequestHeaders() {
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("Referer", REFERER);
 		param.put("Host", HOST);

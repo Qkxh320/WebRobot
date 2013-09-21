@@ -50,7 +50,6 @@ public class LengxiaohuaRobot extends WebRobot2 {
 	public LengxiaohuaRobot(int startPage, int endPage) {
 		this.startPage = startPage;
 		this.endPage = endPage;
-		this.dbRobot = new FunnyDataRobot();
 	}
 	
 	@Override
@@ -71,8 +70,8 @@ public class LengxiaohuaRobot extends WebRobot2 {
 		if (rp != null && rp.trim().length() > 0) {
 			System.out.println(rp);
 			objs = parseHtml2Obj(rp);
-			startPage++;
 		}
+		startPage++;
 		return objs;
 	}
 
@@ -104,8 +103,7 @@ public class LengxiaohuaRobot extends WebRobot2 {
 			if (!img.isEmpty()) {
 				obj.setImgUrl(TCP + HOST + img.get(0).attr("data-original"));
 			}
-			dbRobot.doWork(obj);
-			
+			dbRobot.AddFunnyData(obj);
 			objs.add(obj);
 		}
 		return objs;
