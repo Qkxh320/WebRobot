@@ -151,6 +151,9 @@ public class WebRobot implements Runnable {
 			public void run() {
 				HttpClient client = HttpUtil.getHttpClient();
 				HttpGet get = new HttpGet(imgUrl);
+				get.setHeader("User-Agent", HttpUtil.USER_AGENT);
+				get.setHeader("Host", "essay.oss.aliyuncs.com");
+				get.setHeader("Referer", "http://chuansongme.com");
 				int failCount = 1;
 				do {
 					try {
@@ -165,13 +168,12 @@ public class WebRobot implements Runnable {
 							outStream.write(data);
 							outStream.close();
 						}
+//						System.err.println(response.getStatusLine().getStatusCode());
 						break;
 					} catch (Exception e) {
 						failCount++;
-						if(_DEBUG){
-							System.err.println("对于图片" + imgUrl + "第" + failCount
-									+ "次下载失败,正在尝试重新下载...");
-						}
+						System.err.println("对于图片" + imgUrl + "第" + failCount
+								+ "次下载失败,正在尝试重新下载...");
 					} finally {
 						
 					}
@@ -192,17 +194,17 @@ public class WebRobot implements Runnable {
 		byte[] buffer = new byte[1024];
 		
 		int len = 0;
-		// int count = 0;
-		// String processText;
+		int count = 0;
+		String processText;
 		long t = System.currentTimeMillis();
 
 		while ((len = inStream.read(buffer)) != -1) {
 			outStream.write(buffer, 0, len);
-			// 下载进度
-			// count += len;
-			// processText = df.format((float) count / 1024 / 1024) + "MB" + "/"
-			// + fileSize;
-			// System.out.println(processText);
+			//下载进度
+			count += len;
+			processText = df.format((float) count / 1024 / 1024) + "MB" + "/"
+			+ fileSize;
+			System.out.println(processText);
 		}
 		System.out
 				.println("下载完成，耗时：" + (System.currentTimeMillis() - t) + "毫秒");

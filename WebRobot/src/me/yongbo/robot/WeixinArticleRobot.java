@@ -87,9 +87,9 @@ public class WeixinArticleRobot extends WebRobot2 {
 			intro = _intro.first().text();
 		}
 		
-		
 		//List<ArticleObj> objs = new ArrayList<ArticleObj>();
 		ArticleObj obj = new ArticleObj();
+		obj.setAuthor(account);
 		obj.setFrom(account_desc);
 		obj.setContent(content.html());
 		obj.setCreatetime(createtime.text());

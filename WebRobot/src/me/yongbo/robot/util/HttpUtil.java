@@ -16,7 +16,7 @@ public class HttpUtil {
 	private final static int TIMEOUT_CONNECTION = 5000;
 	private final static int TIMEOUT_SOCKET = 20000;
 	
-	private final static String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.94 Safari/537.36";
+	public final static String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.94 Safari/537.36";
 	
 	public static HttpClient getHttpClient() {
 		HttpParams params = new BasicHttpParams();

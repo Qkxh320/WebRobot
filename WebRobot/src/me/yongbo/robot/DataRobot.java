@@ -27,6 +27,7 @@ public class DataRobot extends DatabaseRobot {
 	public void AddArticleData(ArticleObj obj){
 		List<NameValuePair> nvs = new ArrayList<NameValuePair>();
 		nvs.add(new BasicNameValuePair("from", obj.getFrom()));
+		nvs.add(new BasicNameValuePair("weixin_account", obj.getAuthor()));
 		nvs.add(new BasicNameValuePair("content", obj.getContent()));
 		nvs.add(new BasicNameValuePair("title", obj.getTitle()));
 		nvs.add(new BasicNameValuePair("intro_words", obj.getIntro()));
