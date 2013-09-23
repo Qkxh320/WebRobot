@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -53,6 +54,8 @@ public abstract class WebRobot2 implements Runnable {
 	
 	protected DataRobot dbRobot;
 	
+	protected ImageRobot imgRobot;
+	
 	static {
 		pool = Executors.newFixedThreadPool(50); // 固定线程池
 		sdf = new SimpleDateFormat("yyyyMMdd/HHmm/");
@@ -68,6 +71,7 @@ public abstract class WebRobot2 implements Runnable {
 		this.getMethod = HttpUtil.getHttpGet(getRequestHeaders());
 		this.gson = new Gson();
 		this.dbRobot = new DataRobot();
+		this.imgRobot = new ImageRobot();
 	}
 	/**
 	 * 通过URL地址获取页面的html字符串
@@ -111,6 +115,18 @@ public abstract class WebRobot2 implements Runnable {
 		} while (failCount < MAX_FAILCOUNT);
 		return sb.toString();
 	}
+	
+	public static HttpGet getHttpGet(String url){
+		HttpGet get = new HttpGet(url);
+		get.setHeader("User-Agent", HttpUtil.USER_AGENT);
+		if(Pattern.matches("^http://essay.*", url)){
+			get.setHeader("Host", "essay.oss.aliyuncs.com");
+			get.setHeader("Referer", "http://chuansongme.com");
+		}else if(Pattern.matches("http://pic\\.qiushibaike\\.com", url)){
+			get.setHeader("Host", "pic.qiushibaike.com");
+		}
+		return get;
+	}
 
 	/**
 	 * 下载网络图片到本地
@@ -134,7 +150,7 @@ public abstract class WebRobot2 implements Runnable {
 			@Override
 			public void run() {
 				HttpClient client = HttpUtil.getHttpClient();
-				HttpGet get = new HttpGet(imgUrl);
+				HttpGet get = getHttpGet(imgUrl);
 				int failCount = 1;
 				do {
 					try {

@@ -17,6 +17,8 @@ public class WeixinArticleRobot extends WebRobot2 {
 	private final static String REFERER = "chuansong.me";
 	private final static String POINT_URL = "http://chuansong.me/more/account-%1$s/recent?lastindex=%2$d";
 	
+	private final String WX_IMG_SAVEPATH = "H:/img_article";
+	
 	private int lastIndex;
 	private String account;
 	private String account_desc;
@@ -98,9 +100,10 @@ public class WeixinArticleRobot extends WebRobot2 {
 		if(!pic.isEmpty()){
 			String src = pic.get(0).attr("src");
 			obj.setPic(getSrc(src));
+			imgRobot.downImage(getSrc(src), WX_IMG_SAVEPATH + account);
 		}
 		System.err.println(obj.getPic());
-		dbRobot.AddArticleData(obj);
+		//dbRobot.AddArticleData(obj);
 		cur_count++;
 		return null;
 	}
