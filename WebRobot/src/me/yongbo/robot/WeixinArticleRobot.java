@@ -17,7 +17,7 @@ public class WeixinArticleRobot extends WebRobot2 {
 	private final static String REFERER = "chuansong.me";
 	private final static String POINT_URL = "http://chuansong.me/more/account-%1$s/recent?lastindex=%2$d";
 	
-	private final String WX_IMG_SAVEPATH = "H:/img_article";
+	private final String WX_IMG_SAVEPATH = "E:/img_article";
 	
 	private int lastIndex;
 	private String account;
