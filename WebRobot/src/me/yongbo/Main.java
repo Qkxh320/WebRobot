@@ -54,6 +54,7 @@ public class Main {
 		//new Thread(new WeixinArticleRobot(0, "nba_story", "球人")).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "wechanger", "改变自己")).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "Upoetry", "诗歌精选")).start(); //抓取段子下所有数据
-		new Thread(new WeixinArticleRobot(0, "jixiaozhanV5", "老纪读书")).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, "jixiaozhanV5", "老纪读书")).start(); //抓取段子下所有数据
+		
 	}
 }

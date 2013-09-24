@@ -8,6 +8,5 @@
 	<classpathentry kind="lib" path="libs/gson-2.2.2.jar"/>
 	<classpathentry kind="lib" path="libs/httpcore-4.1.jar"/>
 	<classpathentry kind="lib" path="libs/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="libs/bcs-sdk-java_1.4.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
