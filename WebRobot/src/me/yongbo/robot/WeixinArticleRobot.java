@@ -1,5 +1,6 @@
 package me.yongbo.robot;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -17,7 +18,7 @@ public class WeixinArticleRobot extends WebRobot2 {
 	private final static String REFERER = "chuansong.me";
 	private final static String POINT_URL = "http://chuansong.me/more/account-%1$s/recent?lastindex=%2$d";
 	
-	private final String WX_IMG_SAVEPATH = "E:/img_article";
+	private final String ROOT = "E:/img_article/";
 	
 	private int lastIndex;
 	private String account;
@@ -73,19 +74,36 @@ public class WeixinArticleRobot extends WebRobot2 {
 		
 	}
 
+	public String getMySavePath(String imgUrl){
+		Date date = new Date();
+		String folderPath = sdf.format(date);
+		String[] p = imgUrl.split("/");
+		String fileName = p[p.length - 2] + "-" + p[p.length - 1];
+		return folderPath + fileName;
+	}
 	@Override
 	public Object parseHtml2Obj(String html) {
 		Document doc = Jsoup.parse(html);
 		Element title = doc.getElementById("activity-name");
 		Element createtime = doc.getElementById("post-date");
-		//Element from = doc.getElementById("post-user");
 		Element content = doc.getElementById("essay-body");
+		Elements imgs = doc.select(".text img");
+		if(!imgs.isEmpty()){
+			for (Element img : imgs) {
+				String pic_url = getSrc(img.attr("src"));
+				String mySavePath = getMySavePath(img.attr("src"));
+				img.attr("src", mySavePath);
+				//System.out.println(ROOT + mySavePath);
+				imgRobot.downImage(pic_url, ROOT + mySavePath);
+			}
+		}
+		
 		Elements pic = doc.select("#media img");
 		Elements _intro = doc.select(".text p");
 		String intro = null;
 		if(_intro.isEmpty()){
 			intro = "阅读全部";
-		}else{
+		} else {
 			intro = _intro.first().text();
 		}
 		
@@ -99,11 +117,13 @@ public class WeixinArticleRobot extends WebRobot2 {
 		obj.setIntro(intro.substring(0, intro.length() > 50 ? 50 : intro.length()) + "...");
 		if(!pic.isEmpty()){
 			String src = pic.get(0).attr("src");
-			obj.setPic(getSrc(src));
-			imgRobot.downImage(getSrc(src), WX_IMG_SAVEPATH + account);
+			String pic_url = getSrc(src);
+			String mySavePath = getMySavePath(pic_url);
+			obj.setPic(mySavePath);
+			System.err.println(obj.getPic());
+			//imgRobot.downImage(pic_url, ROOT + mySavePath);
 		}
-		System.err.println(obj.getPic());
-		//dbRobot.AddArticleData(obj);
+		//dbRobot.addArticleData(obj);
 		cur_count++;
 		return null;
 	}

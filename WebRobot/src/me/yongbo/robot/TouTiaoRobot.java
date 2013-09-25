@@ -73,7 +73,7 @@ public class TouTiaoRobot extends WebRobot2 {
 			obj.setFrom("头条网");
 			obj.setCreateTime(tObj.getDatetime());
 			obj.setContent(tObj.getText());
-			dbRobot.AddFunnyData(obj);
+			dbRobot.addFunnyData(obj);
 			objs.add(obj);
 		}
 		

@@ -31,7 +31,7 @@ public class ImageRobot {
 	}
 	
 	static {
-		sdf = new SimpleDateFormat("/yyyyMMdd/HHmm/");
+		sdf = new SimpleDateFormat("yyyyMMdd/HHmm/");
 		pool = Executors.newFixedThreadPool(100); // 固定线程池
 	}
 	
@@ -47,11 +47,9 @@ public class ImageRobot {
 		return get;
 	}
 	
-	public void downImage(String imgUrl, String root){
-		Date date = new Date();
-		String folderPath = root + sdf.format(date);
-		String[] p = imgUrl.split("/");
-		String fileName = p[p.length - 2] + "-" + p[p.length - 1];
+	public void downImage(String imgUrl, String savePath){
+		String folderPath = savePath.substring(0, savePath.lastIndexOf("/"));
+		String fileName = savePath.substring(savePath.lastIndexOf("/") + 1);
 		downImage(imgUrl, folderPath, fileName);
 	}
 	
@@ -86,7 +84,7 @@ public class ImageRobot {
 						HttpEntity entity = response.getEntity();
 						if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK && entity != null) {
 							byte[] data = readFromResponse(entity);
-							String savePaht = folderPath + fileName;
+							String savePaht = folderPath + File.separator + fileName;
 							File imageFile = new File(savePaht);
 							FileOutputStream outStream = new FileOutputStream(
 									imageFile);

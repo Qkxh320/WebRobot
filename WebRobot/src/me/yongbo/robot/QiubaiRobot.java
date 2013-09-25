@@ -121,7 +121,7 @@ public class QiubaiRobot extends WebRobot2 {
 			if (!img.isEmpty()) {
 				obj.setImgUrl(img.get(0).attr("src"));
 			}
-			dbRobot.AddFunnyData(obj);
+			dbRobot.addFunnyData(obj);
 			objs.add(obj);
 		}
 		return objs;

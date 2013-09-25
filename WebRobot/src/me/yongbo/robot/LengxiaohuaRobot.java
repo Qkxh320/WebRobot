@@ -103,7 +103,7 @@ public class LengxiaohuaRobot extends WebRobot2 {
 			if (!img.isEmpty()) {
 				obj.setImgUrl(TCP + HOST + img.get(0).attr("data-original"));
 			}
-			dbRobot.AddFunnyData(obj);
+			dbRobot.addFunnyData(obj);
 			objs.add(obj);
 		}
 		return objs;
