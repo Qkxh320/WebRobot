@@ -109,21 +109,23 @@ public class WeixinArticleRobot extends WebRobot2 {
 		
 		//List<ArticleObj> objs = new ArrayList<ArticleObj>();
 		ArticleObj obj = new ArticleObj();
+		if(!pic.isEmpty()){
+			String src = pic.get(0).attr("src");
+			String pic_url = getSrc(src);
+			String mySavePath = getMySavePath(pic_url);
+			pic.attr("src", mySavePath);
+			obj.setPic(mySavePath);
+			System.err.println(obj.getPic());
+			imgRobot.downImage(pic_url, ROOT + mySavePath);
+		}
+		
 		obj.setAuthor(account);
 		obj.setFrom(account_desc);
 		obj.setContent(content.html());
 		obj.setCreatetime(createtime.text());
 		obj.setTitle(title.text());
 		obj.setIntro(intro.substring(0, intro.length() > 50 ? 50 : intro.length()) + "...");
-		if(!pic.isEmpty()){
-			String src = pic.get(0).attr("src");
-			String pic_url = getSrc(src);
-			String mySavePath = getMySavePath(pic_url);
-			obj.setPic(mySavePath);
-			System.err.println(obj.getPic());
-			//imgRobot.downImage(pic_url, ROOT + mySavePath);
-		}
-		//dbRobot.addArticleData(obj);
+		dbRobot.addArticleData(obj);
 		cur_count++;
 		return null;
 	}
