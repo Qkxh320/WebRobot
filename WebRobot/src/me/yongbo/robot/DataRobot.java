@@ -2,6 +2,7 @@ package me.yongbo.robot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import me.yongbo.robot.bean.ArticleObj;
 import me.yongbo.robot.bean.FunnyObj;
@@ -12,7 +13,8 @@ import org.apache.http.message.BasicNameValuePair;
 public class DataRobot extends DatabaseRobot {
 	//public static final String addfunny_url = "http://api.wakao.me/api/addFunny.php";
 	public static final String ADD_API_URL = "http://apiforandroid.duapp.com/%1$s/add";
-	
+	// 线程池
+	private static ExecutorService pool;
 	public void addFunnyData(FunnyObj obj){
 		List<NameValuePair> nvs = new ArrayList<NameValuePair>();
 		nvs.add(new BasicNameValuePair("from", obj.getFrom()));
@@ -24,7 +26,7 @@ public class DataRobot extends DatabaseRobot {
 		postDataToServer(nvs, String.format(ADD_API_URL, "funny"));
 	}
 	
-	public void addArticleData(ArticleObj obj){
+	public void addArticleData(ArticleObj obj) {
 		List<NameValuePair> nvs = new ArrayList<NameValuePair>();
 		nvs.add(new BasicNameValuePair("from", obj.getFrom()));
 		nvs.add(new BasicNameValuePair("weixin_account", obj.getAuthor()));

@@ -31,6 +31,7 @@ public class HttpUtil {
 		HttpGet httpGet = new HttpGet();
 		
 		httpGet.setHeader("User-Agent", USER_AGENT);
+		if(request_headers == null){return httpGet;}
 		for(String k : request_headers.keySet()){
 			httpGet.setHeader(k, request_headers.get(k));
 		}
@@ -41,6 +42,7 @@ public class HttpUtil {
 		HttpPost httpPost = new HttpPost();
 		
 		httpPost.setHeader("User-Agent", USER_AGENT);
+		if(headers == null){return httpPost;}
 		for(String k : headers.keySet()){
 			httpPost.setHeader(k, headers.get(k));
 		}

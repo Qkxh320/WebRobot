@@ -89,17 +89,26 @@ public class WebRobot implements Runnable {
 	 * @param url
 	 *            目标地址
 	 * */
+	private int i = 0;
 	public String getResponseString(String url) {
 		String lineText;
 		StringBuilder sb = new StringBuilder();
 		InputStreamReader isr = null;
 		int failCount = 0;
+		
 		do {
 			try {
 				getMethod.setURI(new URI(url));
+				String ip = "201.102.23." + i++;
+				getMethod.setHeader("X-Forwarded-For",ip);
+				System.out.println("ip:"+ip);
+				getMethod.setHeader("Referer","http://www.teamtop.com/12jingling/index.php");
+				getMethod.setHeader("Host","www.teamtop.com");
+				getMethod.setHeader("X-Requested-With","XMLHttpRequest");
 				HttpResponse response = httpClient.execute(getMethod);
 				int status = response.getStatusLine().getStatusCode();
 				HttpEntity entity = response.getEntity();
+				
 				if (status != HttpStatus.SC_OK || entity == null) {
 					return null;
 				}
@@ -108,6 +117,7 @@ public class WebRobot implements Runnable {
 				while ((lineText = bufReader.readLine()) != null) {
 					sb.append(lineText);
 				}
+				System.out.println(sb.toString());
 				break;
 			} catch (Exception e) {
 				failCount++;
