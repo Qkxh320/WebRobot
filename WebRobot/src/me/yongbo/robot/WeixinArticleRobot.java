@@ -19,6 +19,7 @@ public class WeixinArticleRobot extends WebRobot2 {
 	private final static String POINT_URL = "http://chuansong.me/more/account-%1$s/recent?lastindex=%2$d";
 	
 	private final String ROOT = "E:/img_article/";
+	private final static String CACHE_DIR = "E:/weixin_article/cache/"; //序列化数据缓存目录
 	
 	private int lastIndex;
 	private String account;
@@ -27,7 +28,8 @@ public class WeixinArticleRobot extends WebRobot2 {
 	private int max;
 	private int cur_count = 0;
 	
-	private String lastFecthUrl;
+	private String cacheUrl = null;
+	
 	
 	public WeixinArticleRobot(int lastIndex, String account, int channel) {
 		this(lastIndex, -1, account, account, channel);
@@ -42,9 +44,16 @@ public class WeixinArticleRobot extends WebRobot2 {
 		this.account_desc = account_desc;
 		this.channel = channel;
 	}
+	public void initCacheUrl(){
+		this.cacheUrl = (String)readFromCache(CACHE_DIR, account);
+	}
+	public void setCacheUrl(String cacheValue){
+		writeToCache(CACHE_DIR, account, cacheValue);
+	}
 	
 	@Override
 	public void run() {
+		initCacheUrl();
 		while (doAgain) {
 			if(max != -1 && cur_count > max){ break; }
 			doWork();
@@ -56,7 +65,6 @@ public class WeixinArticleRobot extends WebRobot2 {
 		String rp = getResponseString(String.format(POINT_URL, account,
 				lastIndex));
 		System.out.println(rp);
-		
 		if (rp != null && rp.trim().length() > 0) {
 			getArticle(rp);
 		}
@@ -71,6 +79,15 @@ public class WeixinArticleRobot extends WebRobot2 {
 			doAgain = false;
 		}
 		for (Element ele : eles) {
+			String href = ele.attr("href");
+			if(cacheUrl == null){
+				cacheUrl = href;
+				setCacheUrl(href);
+			} else if(cacheUrl != null && cacheUrl.equals(href)) {
+				doAgain = false;
+				System.err.println("新数据抓取完毕..." + account + "抓取线程正在结束...");
+				return;
+			}
 			System.out.println(ele.text());
 			String html = getResponseString(ele.attr("href"));
 			parseHtml2Obj(html);
@@ -84,7 +101,7 @@ public class WeixinArticleRobot extends WebRobot2 {
 		String fileName = p[p.length - 2] + "-" + p[p.length - 1];
 		return folderPath + fileName;
 	}
-	
+
 	@Override
 	public Object parseHtml2Obj(String html) {
 		Document doc = Jsoup.parse(html);

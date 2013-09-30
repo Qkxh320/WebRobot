@@ -3,10 +3,13 @@ package me.yongbo.robot;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.security.ProtectionDomain;
 import java.text.DecimalFormat;
@@ -214,10 +217,55 @@ public abstract class WebRobot2 implements Runnable {
 	protected void shutdownRobot(){
 		httpClient.getConnectionManager().shutdown();
 	}
-	
 	/**
-	 * 设置http请求的头信息
+	 * 写入缓存
 	 * */
+	public void writeToCache(String cacheDir, String cacheKey, String cacheValue){
+		int cnt = 0;
+		do {
+			try {
+				File destDir = new File(cacheDir);
+				if (!destDir.exists()) {
+					destDir.mkdirs();
+				}
+	            ObjectOutputStream os = new ObjectOutputStream(  
+	                    new FileOutputStream(cacheDir + cacheKey));  
+	            os.writeObject(cacheValue);  
+	            os.close();
+	            break;
+	        } catch (Exception e) { 
+	        	cnt++;
+	            System.err.println("写入缓存失败,正在尝试第" + cnt + "次重新写入");
+	        } 
+		} while(cnt < MAX_FAILCOUNT);
+		
+	}
+	/**
+	 * 读取缓存
+	 * */
+	public Object readFromCache(String cacheDir, String cacheKey){
+		File file = new File(cacheDir + cacheKey);
+		if(!file.exists()){
+			return null;
+		}
+		
+		Object cacheObj = null;
+		int cnt = 0;
+		do {
+			try {
+				ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));  
+				cacheObj = is.readObject();
+	            is.close();
+	            break;
+	        } catch (Exception e) { 
+	        	e.printStackTrace();
+	        	cnt++;
+	            System.err.println("读取缓存失败,正在尝试第" + cnt + "次重新读取");
+	        } 
+		} while(cnt < MAX_FAILCOUNT);
+		return cacheObj;
+	}
+	
 	protected abstract Map<String, String> getRequestHeaders();
 	protected abstract Object parseHtml2Obj(String html);
 }

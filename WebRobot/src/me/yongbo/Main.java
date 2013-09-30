@@ -13,6 +13,7 @@ import me.yongbo.robot.Meitu91Robot;
 import me.yongbo.robot.QiubaiRobot;
 import me.yongbo.robot.TouTiaoRobot;
 import me.yongbo.robot.WebRobot;
+import me.yongbo.robot.WebRobot2;
 import me.yongbo.robot.WeixinArticleRobot;
 import me.yongbo.robot.bean.ChannelObj;
 import me.yongbo.robot.util.HttpUtil;
@@ -51,15 +52,17 @@ public class Main {
 		//new Thread(new LengxiaohuaRobot(1, 1)).start(); //抓取段子下所有数据
 		
 		
-		//new Thread(new WeixinArticleRobot(0, "taobaoguijiaoqi", "鬼脚七", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
-		//new Thread(new WeixinArticleRobot(0, "ayawawavip", "娃娃微信答")).start(); //抓取段子下所有数据
+		new Thread(new WeixinArticleRobot(0, "taobaoguijiaoqi", "鬼脚七", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, "ayawawavip", "娃娃微信答",ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "nba_story", "球人")).start(); //抓取段子下所有数据
-		//new Thread(new WeixinArticleRobot(0, "wechanger", "改变自己")).start(); //抓取段子下所有数据
-		//new Thread(new WeixinArticleRobot(0, "Upoetry", "诗歌精选")).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, "wechanger", "改变自己", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, "igandeshuang", "听甘德霜讲故事", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, "luojisw", "罗辑思维", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, "Upoetry", "诗歌精选", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "jixiaozhanV5", "老纪读书")).start(); //抓取段子下所有数据
 //		int i=0;
 //		WebRobot robot = new WebRobot(HttpUtil.getHttpGet(null));
-//		while(i<990){
+//		while(i<100){
 //			robot.getResponseString("http://www.teamtop.com/12jingling/index.php?m=index&a=vote&id=67&infloat=yes&handlekey=vote_vote&t=1380204754691&inajax=1&ajaxtarget=fwin_content_vote_vote");
 //			i++;
 //		}

@@ -89,7 +89,7 @@ public class WebRobot implements Runnable {
 	 * @param url
 	 *            目标地址
 	 * */
-	private int i = 0;
+	private int a = 5, b = 120,c = 3, d = 1;
 	public String getResponseString(String url) {
 		String lineText;
 		StringBuilder sb = new StringBuilder();
@@ -99,7 +99,7 @@ public class WebRobot implements Runnable {
 		do {
 			try {
 				getMethod.setURI(new URI(url));
-				String ip = "201.102.23." + i++;
+				String ip = String.format("%1$d.%2$d.%3$d.%4$d", a++, b--, c++, d++);
 				getMethod.setHeader("X-Forwarded-For",ip);
 				System.out.println("ip:"+ip);
 				getMethod.setHeader("Referer","http://www.teamtop.com/12jingling/index.php");
