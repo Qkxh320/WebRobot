@@ -11,6 +11,7 @@ public class ArticleObj extends MyEntity {
 	private int comment_count;
 	private String pic;
 	private String createtime;
+	private int channel;
 	public int getId() {
 		return id;
 	}
@@ -72,5 +73,10 @@ public class ArticleObj extends MyEntity {
 		this.comment_count = comment_count;
 	}
 	
-	
+	public int getChannel() {
+		return channel;
+	}
+	public void setChannel(int channel) {
+		this.channel = channel;
+	}
 }

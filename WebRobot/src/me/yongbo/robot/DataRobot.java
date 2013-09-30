@@ -37,6 +37,7 @@ public class DataRobot extends DatabaseRobot {
 		nvs.add(new BasicNameValuePair("user_id", "1"));
 		nvs.add(new BasicNameValuePair("user_name", "爱吃鱼的猫"));
 		nvs.add(new BasicNameValuePair("createtime", obj.getCreatetime()));
+		nvs.add(new BasicNameValuePair("channel", Integer.toString(obj.getChannel())));
 		postDataToServer(nvs, String.format(ADD_API_URL, "article"));
 	}
 }

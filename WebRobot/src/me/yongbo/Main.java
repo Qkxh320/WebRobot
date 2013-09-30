@@ -14,6 +14,7 @@ import me.yongbo.robot.QiubaiRobot;
 import me.yongbo.robot.TouTiaoRobot;
 import me.yongbo.robot.WebRobot;
 import me.yongbo.robot.WeixinArticleRobot;
+import me.yongbo.robot.bean.ChannelObj;
 import me.yongbo.robot.util.HttpUtil;
 import me.yongbo.robot.util.PropertieUtil;
 
@@ -50,17 +51,17 @@ public class Main {
 		//new Thread(new LengxiaohuaRobot(1, 1)).start(); //抓取段子下所有数据
 		
 		
-		//new Thread(new WeixinArticleRobot(0, "taobaoguijiaoqi", "鬼脚七")).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, "taobaoguijiaoqi", "鬼脚七", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "ayawawavip", "娃娃微信答")).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "nba_story", "球人")).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "wechanger", "改变自己")).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "Upoetry", "诗歌精选")).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "jixiaozhanV5", "老纪读书")).start(); //抓取段子下所有数据
-		int i=0;
-		WebRobot robot = new WebRobot(HttpUtil.getHttpGet(null));
-		while(i<990){
-			robot.getResponseString("http://www.teamtop.com/12jingling/index.php?m=index&a=vote&id=67&infloat=yes&handlekey=vote_vote&t=1380204754691&inajax=1&ajaxtarget=fwin_content_vote_vote");
-			i++;
-		}
+//		int i=0;
+//		WebRobot robot = new WebRobot(HttpUtil.getHttpGet(null));
+//		while(i<990){
+//			robot.getResponseString("http://www.teamtop.com/12jingling/index.php?m=index&a=vote&id=67&infloat=yes&handlekey=vote_vote&t=1380204754691&inajax=1&ajaxtarget=fwin_content_vote_vote");
+//			i++;
+//		}
 	}
 }

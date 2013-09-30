@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
 import me.yongbo.robot.bean.ArticleObj;
 
 public class WeixinArticleRobot extends WebRobot2 {
-
+	
 	private final static String HOST = "chuansong.me";
 	private final static String REFERER = "chuansong.me";
 	private final static String POINT_URL = "http://chuansong.me/more/account-%1$s/recent?lastindex=%2$d";
@@ -23,20 +23,24 @@ public class WeixinArticleRobot extends WebRobot2 {
 	private int lastIndex;
 	private String account;
 	private String account_desc;
+	private int channel;
 	private int max;
 	private int cur_count = 0;
 	
-	public WeixinArticleRobot(int lastIndex, String account) {
-		this(lastIndex, -1, account, account);
+	private String lastFecthUrl;
+	
+	public WeixinArticleRobot(int lastIndex, String account, int channel) {
+		this(lastIndex, -1, account, account, channel);
 	}
-	public WeixinArticleRobot(int lastIndex, String account, String account_desc) {
-		this(lastIndex, -1, account, account_desc);
+	public WeixinArticleRobot(int lastIndex, String account, String account_desc, int channel) {
+		this(lastIndex, -1, account, account_desc, channel);
 	}
-	public WeixinArticleRobot(int lastIndex, int max, String account, String account_desc) {
+	public WeixinArticleRobot(int lastIndex, int max, String account, String account_desc, int channel) {
 		this.lastIndex = lastIndex;
 		this.max = max;
 		this.account = account;
 		this.account_desc = account_desc;
+		this.channel = channel;
 	}
 	
 	@Override
@@ -71,7 +75,6 @@ public class WeixinArticleRobot extends WebRobot2 {
 			String html = getResponseString(ele.attr("href"));
 			parseHtml2Obj(html);
 		}
-		
 	}
 
 	public String getMySavePath(String imgUrl){
@@ -81,6 +84,7 @@ public class WeixinArticleRobot extends WebRobot2 {
 		String fileName = p[p.length - 2] + "-" + p[p.length - 1];
 		return folderPath + fileName;
 	}
+	
 	@Override
 	public Object parseHtml2Obj(String html) {
 		Document doc = Jsoup.parse(html);
@@ -107,7 +111,6 @@ public class WeixinArticleRobot extends WebRobot2 {
 			intro = _intro.first().text();
 		}
 		
-		//List<ArticleObj> objs = new ArrayList<ArticleObj>();
 		ArticleObj obj = new ArticleObj();
 		if(!pic.isEmpty()){
 			String src = pic.get(0).attr("src");
@@ -124,6 +127,7 @@ public class WeixinArticleRobot extends WebRobot2 {
 		obj.setContent(content.html());
 		obj.setCreatetime(createtime.text());
 		obj.setTitle(title.text());
+		obj.setChannel(channel);
 		obj.setIntro(intro.substring(0, intro.length() > 50 ? 50 : intro.length()) + "...");
 		dbRobot.addArticleData(obj);
 		cur_count++;

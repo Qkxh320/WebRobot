@@ -58,4 +58,5 @@ public class FunnyObj extends MyEntity {
 		this.createTime = createTime;
 	}
 	
+	
 }
