@@ -18,10 +18,9 @@ import me.yongbo.robot.dbhelper.FunnyDbHelper;
 import me.yongbo.robot.util.HttpUtil;
 
 public class QiubaiRobot extends WebRobot2 {
-
-//	public static String rootDir = "D:/wakao/webimage/qbimage/";
-//	private final static String BEFORE = "qb_";
-
+	
+	private final static String CACHE_DIR = "E:/funny/cache/"; //序列化数据缓存目录
+	
 	private final static String HOST = "www.qiushibaike.com";
 	private final static String REFERER = "www.qiushibaike.com";
 	private final static String POINT_URL = "http://www.qiushibaike.com/%1$s/page/%2$d?s=4580238&slow";
@@ -29,6 +28,8 @@ public class QiubaiRobot extends WebRobot2 {
 	private int startPage;
 	private int endPage;
 	private String category;
+	
+	private String cacheId;
 
 	/**
 	 * 构造函数
@@ -68,6 +69,7 @@ public class QiubaiRobot extends WebRobot2 {
 
 	@Override
 	public void run() {
+//		initCacheId();
 		while (doAgain) {
 			if (endPage != -1 && startPage > endPage) {
 				break;
@@ -76,7 +78,12 @@ public class QiubaiRobot extends WebRobot2 {
 		}
 		shutdownRobot();
 	}
-
+	public void initCacheId(){
+		this.cacheId = (String)readFromCache(CACHE_DIR, "qiubai");
+	}
+	public void setCacheId(String cacheValue) {
+		writeToCache(CACHE_DIR, "qiubai", cacheValue);
+	}
 	public void setStartPage(int page){
 		this.startPage = page;
 	}
@@ -121,6 +128,11 @@ public class QiubaiRobot extends WebRobot2 {
 			if (!img.isEmpty()) {
 				obj.setImgUrl(img.get(0).attr("src"));
 			}
+			
+//			if(chacheEndByCache(obj.getId())){
+//				return objs;
+//			}
+			System.out.println(obj.getContent());
 			dbRobot.addFunnyData(obj);
 			objs.add(obj);
 		}
@@ -145,5 +157,18 @@ public class QiubaiRobot extends WebRobot2 {
 			return match.group(1);
 		}
 		return null;
+	}
+	@Override
+	protected boolean chacheEndByCache(String cacheValue) {
+//		if(isfirst){
+//			setCacheId(cacheValue);
+//			isfirst = false;
+//		}
+//		if(cacheId != null && cacheId.equals(cacheValue)){
+//			doAgain = false;
+//			System.err.println("新数据抓取完毕...抓取线程正在结束...");
+//			return true;
+//		}
+		return false;
 	}
 }

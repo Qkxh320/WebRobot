@@ -87,4 +87,9 @@ public class TouTiaoRobot extends WebRobot2 {
 		param.put("Host", HOST);
 		return param;
 	}
+	
+	@Override
+	protected boolean chacheEndByCache(String cacheValue) {
+		return false;
+	}
 }

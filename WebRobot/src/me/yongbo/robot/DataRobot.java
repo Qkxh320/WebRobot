@@ -14,7 +14,6 @@ public class DataRobot extends DatabaseRobot {
 	//public static final String addfunny_url = "http://api.wakao.me/api/addFunny.php";
 	public static final String ADD_API_URL = "http://apiforandroid.duapp.com/%1$s/add";
 	// 线程池
-	private static ExecutorService pool;
 	public void addFunnyData(FunnyObj obj){
 		List<NameValuePair> nvs = new ArrayList<NameValuePair>();
 		nvs.add(new BasicNameValuePair("from", obj.getFrom()));
