@@ -80,20 +80,17 @@ public class WeixinArticleRobot extends WebRobot2 {
 		}
 		for (Element ele : eles) {
 			String href = ele.attr("href");
-//			if(cur_count == 0){
-//				setCacheUrl(href);
-//			}
-//			if(cacheUrl != null && cacheUrl.equals(href)) {
-//				doAgain = false;
-//				System.err.println("新数据抓取完毕..." + account + "抓取线程正在结束...");
-//				return;
-//			}
-			if(chacheEndByCache(href)){
+			
+			if(cur_count == 0){
+				setCacheUrl(href);
+			}
+			if(cacheUrl != null && cacheUrl.equals(href)) {
+				doAgain = false;
+				System.err.println("新数据抓取完毕..." + account + "抓取线程正在结束...");
 				return;
 			}
+
 			System.out.println(ele.text());
-			System.out.println(cacheUrl);
-			System.out.println(cur_count);
 			String html = getResponseString(ele.attr("href"));
 			parseHtml2Obj(html);
 		}
@@ -120,7 +117,7 @@ public class WeixinArticleRobot extends WebRobot2 {
 				String mySavePath = getMySavePath(img.attr("src"));
 				img.attr("src", mySavePath);
 				//System.out.println(ROOT + mySavePath);
-				//imgRobot.downImage(pic_url, ROOT + mySavePath);
+				imgRobot.downImage(pic_url, ROOT + mySavePath);
 			}
 		}
 		
@@ -141,7 +138,7 @@ public class WeixinArticleRobot extends WebRobot2 {
 			pic.attr("src", mySavePath);
 			obj.setPic(mySavePath);
 			System.err.println(obj.getPic());
-			//imgRobot.downImage(pic_url, ROOT + mySavePath);
+			imgRobot.downImage(pic_url, ROOT + mySavePath);
 		}
 		
 		obj.setAuthor(account);
@@ -151,7 +148,7 @@ public class WeixinArticleRobot extends WebRobot2 {
 		obj.setTitle(title.text());
 		obj.setChannel(channel);
 		obj.setIntro(intro.substring(0, intro.length() > 50 ? 50 : intro.length()) + "...");
-		//dbRobot.addArticleData(obj);
+		dbRobot.addArticleData(obj);
 		cur_count++;
 		return null;
 	}
@@ -168,17 +165,5 @@ public class WeixinArticleRobot extends WebRobot2 {
 			return src;
 		}
 		return TCP + HOST + src;
-	}
-	@Override
-	protected boolean chacheEndByCache(String cacheValue) {
-		if(cur_count == 0) {
-			setCacheUrl(cacheValue);
-		}
-		if(cacheUrl != null && cacheUrl.equals(cacheValue)) {
-			doAgain = false;
-			System.err.println("新数据抓取完毕..." + account + "抓取线程正在结束...");
-			return true;
-		}
-		return false;
 	}
 }

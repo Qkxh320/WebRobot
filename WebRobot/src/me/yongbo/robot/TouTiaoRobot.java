@@ -13,7 +13,7 @@ import me.yongbo.robot.bean.TouTiaoResponse;
 public class TouTiaoRobot extends WebRobot2 {
 	private final static String HOST = "www.toutiao.com";
 	private final static String REFERER = "www.toutiao.com";
-	private final static String POINT_URL = "http://www.toutiao.com/api/essay/recent/recent?callback=&tag=joke&count=20&max_behot_time=1379678287&offset=0";
+	private final static String POINT_URL = "http://www.toutiao.com/api/essay/recent/recent?callback=&tag=joke&count=20&max_behot_time=%1$s&offset=0";
 	
 	
 	
@@ -52,7 +52,7 @@ public class TouTiaoRobot extends WebRobot2 {
 	
 	public List<FunnyObj> doWork() {
 		System.out.println("开始抓取第  " + startPage + " 页的数据");
-		String rp = getResponseString(String.format(POINT_URL, startPage));
+		String rp = getResponseString(String.format(POINT_URL, System.currentTimeMillis()/1000));
 		
 		List<FunnyObj> objs = new ArrayList<FunnyObj>();
 
@@ -88,8 +88,4 @@ public class TouTiaoRobot extends WebRobot2 {
 		return param;
 	}
 	
-	@Override
-	protected boolean chacheEndByCache(String cacheValue) {
-		return false;
-	}
 }

@@ -57,6 +57,4 @@ public class FunnyObj extends MyEntity {
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-	
-	
 }

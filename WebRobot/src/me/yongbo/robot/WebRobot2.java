@@ -265,5 +265,4 @@ public abstract class WebRobot2 implements Runnable {
 	
 	protected abstract Map<String, String> getRequestHeaders();
 	protected abstract Object parseHtml2Obj(String html);
-	protected abstract boolean chacheEndByCache(String cacheValue);
 }

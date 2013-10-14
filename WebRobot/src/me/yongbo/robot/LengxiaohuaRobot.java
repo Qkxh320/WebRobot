@@ -125,9 +125,4 @@ public class LengxiaohuaRobot extends WebRobot2 {
 		}
 		return null;
 	}
-	@Override
-	protected boolean chacheEndByCache(String cacheValue) {
-		
-		return false;
-	}
 }

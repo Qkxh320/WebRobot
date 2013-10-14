@@ -20,7 +20,7 @@ public class DataRobot extends DatabaseRobot {
 		nvs.add(new BasicNameValuePair("content", obj.getContent()));
 		nvs.add(new BasicNameValuePair("pic", obj.getImgUrl()));
 		nvs.add(new BasicNameValuePair("user_id", obj.getId()));
-		nvs.add(new BasicNameValuePair("user_name", obj.getUserName()));
+		nvs.add(new BasicNameValuePair("funny_id", obj.getId()));
 		nvs.add(new BasicNameValuePair("createtime", obj.getCreateTime()));
 		postDataToServer(nvs, String.format(ADD_API_URL, "funny"));
 	}

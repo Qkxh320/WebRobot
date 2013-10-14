@@ -23,7 +23,7 @@ public class QiubaiRobot extends WebRobot2 {
 	
 	private final static String HOST = "www.qiushibaike.com";
 	private final static String REFERER = "www.qiushibaike.com";
-	private final static String POINT_URL = "http://www.qiushibaike.com/%1$s/page/%2$d?s=4580238&slow";
+	private final static String POINT_URL = "http://www.qiushibaike.com/%1$s/page/%2$d";
 
 	private int startPage;
 	private int endPage;
@@ -92,7 +92,7 @@ public class QiubaiRobot extends WebRobot2 {
 		System.out.println("开始抓取第  " + startPage + " 页的数据");
 		String rp = getResponseString(String.format(POINT_URL, category,
 				startPage));
-		
+		System.out.println(rp);
 		List<QiubaiObj> qbs = new ArrayList<QiubaiObj>();
 		if (rp != null && rp.trim().length() > 0) {
 			qbs = parseHtml2Obj(rp);
@@ -113,14 +113,12 @@ public class QiubaiRobot extends WebRobot2 {
 		for (Element ele : eles) {
 			Element content = ele.getElementsByClass("content").first();
 			Elements img = ele.select(".thumb img");
-			Elements detail = ele.select(".detail a");
 			Elements author = ele.select(".author a");
 
 			obj = new QiubaiObj();
 			obj.setId(getFilterId(ele.attr("id")));
 			obj.setCreateTime(content.attr("title"));
 			obj.setContent(content.text());
-			obj.setSource(HOST + detail.get(0).attr("href"));
 			obj.setFrom("糗事百科");
 			if(!author.isEmpty()){
 				obj.setUserName(author.get(0).text());
@@ -128,10 +126,6 @@ public class QiubaiRobot extends WebRobot2 {
 			if (!img.isEmpty()) {
 				obj.setImgUrl(img.get(0).attr("src"));
 			}
-			
-//			if(chacheEndByCache(obj.getId())){
-//				return objs;
-//			}
 			System.out.println(obj.getContent());
 			dbRobot.addFunnyData(obj);
 			objs.add(obj);
@@ -157,18 +151,5 @@ public class QiubaiRobot extends WebRobot2 {
 			return match.group(1);
 		}
 		return null;
-	}
-	@Override
-	protected boolean chacheEndByCache(String cacheValue) {
-//		if(isfirst){
-//			setCacheId(cacheValue);
-//			isfirst = false;
-//		}
-//		if(cacheId != null && cacheId.equals(cacheValue)){
-//			doAgain = false;
-//			System.err.println("新数据抓取完毕...抓取线程正在结束...");
-//			return true;
-//		}
-		return false;
 	}
 }

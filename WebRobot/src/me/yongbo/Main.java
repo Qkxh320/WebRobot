@@ -34,6 +34,17 @@ public class Main {
 		/**
 		 * 使用示例
 		 * */
+		new Thread(new TouTiaoRobot(1, 1)).start(); //抓取段子下所有数据
+		
+		/**
+		 * 使用示例
+		 * */
+		//new Thread(new LengxiaohuaRobot(1, 1)).start(); //抓取段子下所有数据
+		
+		
+		/**
+		 * 使用示例
+		 * */
 		//http://meitu91.b0.upaiyun.com/
 		//new Thread(new Meitu91Robot(1, 100, true)).start(); //抓取最新下数据
 
@@ -42,15 +53,6 @@ public class Main {
 		 * */
 		//new Thread(new HuabanRobot("94060078", "pets", false)).start(); //抓取宠物下数据
 		
-		/**
-		 * 使用示例
-		 * */
-		//new Thread(new TouTiaoRobot(1, 10)).start(); //抓取段子下所有数据
-		
-		/**
-		 * 使用示例
-		 * */
-		//new Thread(new LengxiaohuaRobot(1, 1)).start(); //抓取段子下所有数据
 		
 		
 		//new Thread(new WeixinArticleRobot(0, "taobaoguijiaoqi", "鬼脚七", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
@@ -61,12 +63,12 @@ public class Main {
 		//new Thread(new WeixinArticleRobot(0, "igandeshuang", "听甘德霜讲故事", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "luojisw", "罗辑思维", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "Upoetry", "诗歌精选", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
-		int i=0;
-		WebRobot robot = new WebRobot(HttpUtil.getHttpGet(null));
-		while(i<100){
-			robot.getResponseString("http://www.teamtop.com/12jingling/index.php?m=index&a=vote&id=67&infloat=yes&handlekey=vote_vote&t=1380204754691&inajax=1&ajaxtarget=fwin_content_vote_vote");
-			i++;
-		}
+//		int i=0;
+//		WebRobot robot = new WebRobot(HttpUtil.getHttpGet(null));
+//		while(i<100){
+//			robot.getResponseString("http://www.teamtop.com/12jingling/index.php?m=index&a=vote&id=67&infloat=yes&handlekey=vote_vote&t=1380204754691&inajax=1&ajaxtarget=fwin_content_vote_vote");
+//			i++;
+//		}
 		
 //		new WebRobot2(){
 //
