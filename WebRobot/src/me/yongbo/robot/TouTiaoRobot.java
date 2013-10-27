@@ -13,16 +13,18 @@ import me.yongbo.robot.bean.TouTiaoResponse;
 public class TouTiaoRobot extends WebRobot2 {
 	private final static String HOST = "www.toutiao.com";
 	private final static String REFERER = "www.toutiao.com";
-	private final static String POINT_URL = "http://www.toutiao.com/api/essay/recent/recent?callback=&tag=joke&count=20&max_behot_time=%1$s&offset=0";
+	private final static String POINT_URL = "http://www.toutiao.com/api/essay/recent/recent?callback=&tag=%1$s&count=20&max_behot_time=%2$s&offset=0";
 	
 	
 	
 	private int startPage;
 	private int endPage;
 	
+	private String category;
 	
-	public TouTiaoRobot(int startPage) {
-		this(startPage, -1);
+	
+	public TouTiaoRobot(int startPage, String category) {
+		this(startPage, -1, category);
 	}
 	/**
 	 * 构造函数
@@ -33,12 +35,12 @@ public class TouTiaoRobot extends WebRobot2 {
 	 *            结束页码
 	 * @param ctaegory
 	 *            分类
-	 * @param databaseEnable
 	 *            是否写入数据库
 	 * */
-	public TouTiaoRobot(int startPage, int endPage) {
+	public TouTiaoRobot(int startPage, int endPage,String category) {
 		this.startPage = startPage;
 		this.endPage = endPage;
+		this.category = category;
 	}
 	
 	@Override
@@ -46,20 +48,18 @@ public class TouTiaoRobot extends WebRobot2 {
 		while (doAgain) {
 			if (endPage != -1 && startPage > endPage) { break; }
 			doWork();
+			startPage++;
 		}
 		shutdownRobot();
 	}
 	
 	public List<FunnyObj> doWork() {
 		System.out.println("开始抓取第  " + startPage + " 页的数据");
-		String rp = getResponseString(String.format(POINT_URL, System.currentTimeMillis()/1000));
-		
+		String rp = getResponseString(String.format(POINT_URL, category, System.currentTimeMillis()/1000));
 		List<FunnyObj> objs = new ArrayList<FunnyObj>();
-
 		if (rp != null && rp.trim().length() > 0) {
 			System.out.println(rp);
 			objs = parseHtml2Obj(rp);
-			startPage++;
 		}
 		return objs;
 	}

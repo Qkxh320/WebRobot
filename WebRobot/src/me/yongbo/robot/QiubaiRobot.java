@@ -75,6 +75,7 @@ public class QiubaiRobot extends WebRobot2 {
 				break;
 			}
 			doWork();
+			startPage++;
 		}
 		shutdownRobot();
 	}
@@ -97,7 +98,6 @@ public class QiubaiRobot extends WebRobot2 {
 		if (rp != null && rp.trim().length() > 0) {
 			qbs = parseHtml2Obj(rp);
 		}
-		startPage++;
 		return qbs;
 	}
 

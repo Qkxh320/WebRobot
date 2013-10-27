@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import me.yongbo.robot.BudejieRobot;
 import me.yongbo.robot.DataRobot;
 import me.yongbo.robot.DatabaseRobot;
 import me.yongbo.robot.HuabanRobot;
@@ -31,17 +32,19 @@ public class Main {
 		 * 使用示例
 		 * */
 		//new Thread(new QiubaiRobot(1, 1, "late")).start(); //抓取最新下所有数据
+		//new Thread(new QiubaiRobot(1, 1, "hot")).start(); //抓取最新下所有数据
 		/**
 		 * 使用示例
 		 * */
-		new Thread(new TouTiaoRobot(1, 1)).start(); //抓取段子下所有数据
+		//new Thread(new TouTiaoRobot(1, 1,"joke")).start(); //抓取段子下所有数据
+		//new Thread(new TouTiaoRobot(1, 1,"weirdo")).start(); //抓取段子下所有数据
 		
 		/**
 		 * 使用示例
 		 * */
 		//new Thread(new LengxiaohuaRobot(1, 1)).start(); //抓取段子下所有数据
 		
-		
+		//new Thread(new BudejieRobot()).start(); //抓取段子下所有数据
 		/**
 		 * 使用示例
 		 * */

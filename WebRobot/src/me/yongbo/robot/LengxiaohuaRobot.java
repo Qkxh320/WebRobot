@@ -57,6 +57,7 @@ public class LengxiaohuaRobot extends WebRobot2 {
 		while (doAgain) {
 			if (endPage != -1 && startPage > endPage) { break; }
 			doWork();
+			startPage++;
 		}
 		shutdownRobot();
 	}
@@ -71,7 +72,6 @@ public class LengxiaohuaRobot extends WebRobot2 {
 			System.out.println(rp);
 			objs = parseHtml2Obj(rp);
 		}
-		startPage++;
 		return objs;
 	}
 

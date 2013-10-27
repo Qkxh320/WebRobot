@@ -89,7 +89,7 @@ public class WebRobot implements Runnable {
 	 * @param url
 	 *            目标地址
 	 * */
-	private int a = 120, b = 105,c = 4, d = 6;
+	private int a = 102, b = 111,c = 8, d = 9;
 	public String getResponseString(String url) {
 		String lineText;
 		StringBuilder sb = new StringBuilder();
