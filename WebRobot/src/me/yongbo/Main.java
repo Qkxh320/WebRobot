@@ -49,7 +49,7 @@ public class Main {
 		 * 使用示例
 		 * */
 		//http://meitu91.b0.upaiyun.com/
-		//new Thread(new Meitu91Robot(1, 100, true)).start(); //抓取最新下数据
+		new Thread(new Meitu91Robot(1, 100, false)).start(); //抓取最新下数据
 
 		/**
 		 * 使用示例
@@ -59,8 +59,8 @@ public class Main {
 		
 		
 		//new Thread(new WeixinArticleRobot(0, "taobaoguijiaoqi", "鬼脚七", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
-		new Thread(new WeixinArticleRobot(0, 12, "his-tory", "我们爱历史", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
-		new Thread(new WeixinArticleRobot(0, 12, "gobybike", "骑行西藏", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, 12, "his-tory", "我们爱历史", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, 12, "gobybike", "骑行西藏", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, 12, "duokan", "多看阅读", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "nanfangzhoumo", "南方周末", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0,12, "nba_story", "球人", ChannelObj.CHANNEL_NBA)).start(); //抓取段子下所有数据

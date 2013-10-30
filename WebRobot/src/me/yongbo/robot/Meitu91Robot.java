@@ -93,6 +93,7 @@ public class Meitu91Robot extends WebRobot {
 
 	private List<MyImage> handlerData(List<Meitu91Image> imgs) {
 		List<MyImage> mImgs = new ArrayList<MyImage>();
+		
 		for (Meitu91Image img : imgs) {
 			String imgUrl = String.format(IMG_HOST, img.getFileName());
 			String fileType = imgUrl.substring(imgUrl.lastIndexOf(".") - 1);
@@ -100,6 +101,10 @@ public class Meitu91Robot extends WebRobot {
 			img.setObjType(objtype);
 			img.setType("image/" + fileType.substring(1));
 			mImgs.add(img); //转化为统一图片类型
+			
+			initSaveDir(rootDir);
+			//System.out.println(folderPath+img.getFileName().substring(img.getFileName().lastIndexOf("/")+1));
+			downImage(imgUrl, folderPath, img.getFileName().substring(img.getFileName().lastIndexOf("/")+1));
 		}
 		// 写入数据库
 		if (databaseEnable) {
@@ -113,9 +118,7 @@ public class Meitu91Robot extends WebRobot {
 		if(rp == null){ 
 			return null;
 		}
-		if(_DEBUG) {
-			System.out.println(rp);
-		}
+		
 		Meitu91Response response = gson.fromJson(rp, Meitu91Response.class);
 		List<MyImage> imgs = new ArrayList<MyImage>();
 		if (response.getCount() != 0) {

@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -89,7 +90,7 @@ public class WebRobot implements Runnable {
 	 * @param url
 	 *            目标地址
 	 * */
-	private int a = 102, b = 111,c = 8, d = 9;
+	//private int a = 102, b = 111,c = 8, d = 9;
 	public String getResponseString(String url) {
 		String lineText;
 		StringBuilder sb = new StringBuilder();
@@ -99,12 +100,12 @@ public class WebRobot implements Runnable {
 		do {
 			try {
 				getMethod.setURI(new URI(url));
-				String ip = String.format("%1$d.%2$d.%3$d.%4$d", a--, b--, c++, d++);
-				getMethod.setHeader("X-Forwarded-For",ip);
-				System.out.println("ip:"+ip);
-				getMethod.setHeader("Referer","http://www.teamtop.com/12jingling/index.php");
-				getMethod.setHeader("Host","www.teamtop.com");
-				getMethod.setHeader("X-Requested-With","XMLHttpRequest");
+//				String ip = String.format("%1$d.%2$d.%3$d.%4$d", a--, b--, c++, d++);
+//				getMethod.setHeader("X-Forwarded-For",ip);
+//				System.out.println("ip:"+ip);
+//				getMethod.setHeader("Referer","http://www.teamtop.com/12jingling/index.php");
+//				getMethod.setHeader("Host","www.teamtop.com");
+//				getMethod.setHeader("X-Requested-With","XMLHttpRequest");
 				HttpResponse response = httpClient.execute(getMethod);
 				int status = response.getStatusLine().getStatusCode();
 				HttpEntity entity = response.getEntity();
@@ -161,9 +162,6 @@ public class WebRobot implements Runnable {
 			public void run() {
 				HttpClient client = HttpUtil.getHttpClient();
 				HttpGet get = new HttpGet(imgUrl);
-				get.setHeader("User-Agent", HttpUtil.USER_AGENT);
-				get.setHeader("Host", "essay.oss.aliyuncs.com");
-				get.setHeader("Referer", "http://chuansongme.com");
 				int failCount = 1;
 				do {
 					try {
@@ -197,24 +195,24 @@ public class WebRobot implements Runnable {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		long length = entity.getContentLength();
 		// 显示文件大小格式：2个小数点显示
-		DecimalFormat df = new DecimalFormat("0.00");
+		//DecimalFormat df = new DecimalFormat("0.00");
 		// 总文件大小
-		String fileSize = df.format((float) length / 1024 / 1024) + "MB";
+		//String fileSize = df.format((float) length / 1024 / 1024) + "MB";
 		//缓存
 		byte[] buffer = new byte[1024];
 		
 		int len = 0;
-		int count = 0;
-		String processText;
+		//int count = 0;
+		//String processText;
 		long t = System.currentTimeMillis();
 
 		while ((len = inStream.read(buffer)) != -1) {
 			outStream.write(buffer, 0, len);
 			//下载进度
-			count += len;
-			processText = df.format((float) count / 1024 / 1024) + "MB" + "/"
-			+ fileSize;
-			System.out.println(processText);
+			//count += len;
+			//processText = df.format((float) count / 1024 / 1024) + "MB" + "/"
+			//+ fileSize;
+			//System.out.println(processText);
 		}
 		System.out
 				.println("下载完成，耗时：" + (System.currentTimeMillis() - t) + "毫秒");
@@ -226,7 +224,7 @@ public class WebRobot implements Runnable {
 		httpClient.getConnectionManager().shutdown();
 	}
 	
-	/*
+	
 	protected String curDir; //按照当前时间生成的目录
 	protected String folderPath; //图片存放的目錄（绝对路径）
 
@@ -234,5 +232,5 @@ public class WebRobot implements Runnable {
 		Date date = new Date();
 		curDir = sdf.format(date);
 		folderPath = rootDir + curDir;
-	}*/
+	}
 }
