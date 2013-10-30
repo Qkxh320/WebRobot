@@ -55,7 +55,7 @@ public class WeixinArticleRobot extends WebRobot2 {
 	public void run() {
 		initCacheUrl();
 		while (doAgain) {
-			if(max != -1 && cur_count > max){ break; }
+			if(max != -1 && cur_count >= max){ break; }
 			doWork();
 		}
 		shutdownRobot();

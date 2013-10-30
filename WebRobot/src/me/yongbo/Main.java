@@ -59,12 +59,14 @@ public class Main {
 		
 		
 		//new Thread(new WeixinArticleRobot(0, "taobaoguijiaoqi", "鬼脚七", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		new Thread(new WeixinArticleRobot(0, 12, "his-tory", "我们爱历史", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		new Thread(new WeixinArticleRobot(0, 12, "gobybike", "骑行西藏", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, 12, "duokan", "多看阅读", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "nanfangzhoumo", "南方周末", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
-		//new Thread(new WeixinArticleRobot(0, "ayawawavip", "娃娃微信答",ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
-		//new Thread(new WeixinArticleRobot(0, "nba_story", "球人", ChannelObj.CHANNEL_NBA)).start(); //抓取段子下所有数据
-		//new Thread(new WeixinArticleRobot(0, "wechanger", "改变自己", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
-		//new Thread(new WeixinArticleRobot(0, "igandeshuang", "听甘德霜讲故事", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
-		//new Thread(new WeixinArticleRobot(0, "luojisw", "罗辑思维", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0,12, "nba_story", "球人", ChannelObj.CHANNEL_NBA)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0,12, "wechanger", "改变自己", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0,12, "igandeshuang", "听甘德霜讲故事", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
+		//new Thread(new WeixinArticleRobot(0, 12, "luojisw", "罗辑思维", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 		//new Thread(new WeixinArticleRobot(0, "Upoetry", "诗歌精选", ChannelObj.CHANNEL_RECOMMEND)).start(); //抓取段子下所有数据
 //		int i=0;
 //		WebRobot robot = new WebRobot(HttpUtil.getHttpGet(null));
@@ -72,7 +74,6 @@ public class Main {
 //			robot.getResponseString("http://www.teamtop.com/12jingling/index.php?m=index&a=vote&id=67&infloat=yes&handlekey=vote_vote&t=1380204754691&inajax=1&ajaxtarget=fwin_content_vote_vote");
 //			i++;
 //		}
-		
 //		new WebRobot2(){
 //
 //			@Override
